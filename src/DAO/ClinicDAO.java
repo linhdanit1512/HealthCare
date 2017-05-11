@@ -11,6 +11,11 @@ import util.HibernateUtils;
 
 public class ClinicDAO extends ClassDAO{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6092174994731366061L;
+
 	public static List<Clinic> getAllClinic() {
 		List<Clinic> clinics = new ArrayList<Clinic>();
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();

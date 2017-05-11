@@ -1,11 +1,18 @@
 package DAO;
 
+import java.io.Serializable;
+
 import org.hibernate.Session;
 
 import util.HibernateUtils;
 
-public abstract class ClassDAO {
+public abstract class ClassDAO implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5030552233192043352L;
+
 	public static boolean update(Object object) {
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		try {
