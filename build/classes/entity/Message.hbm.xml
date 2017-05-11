@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 8, 2017 8:56:40 AM by Hibernate Tools 5.2.1.Final -->
+<hibernate-mapping>
+    <class name="entity.Message" table="message" optimistic-lock="version">
+        <id name="idMessage" type="int">
+            <column name="idMessage" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="doctor" class="entity.Doctor" fetch="select">
+            <column name="idDoctor" />
+        </many-to-one>
+        <many-to-one name="users" class="entity.Users" fetch="select">
+            <column name="idUser" />
+        </many-to-one>
+        <property name="times" type="timestamp">
+            <column name="times" length="0" not-null="true" />
+        </property>
+        <property name="content" type="string">
+            <column name="content" length="300" />
+        </property>
+        <property name="isRecent" type="java.lang.Boolean">
+            <column name="isRecent" />
+        </property>
+        <property name="isReply" type="java.lang.Boolean">
+            <column name="isReply" />
+        </property>
+        <property name="isRead" type="java.lang.Boolean">
+            <column name="isRead" />
+        </property>
+        <one-to-one name="questionmessage" class="entity.Questionmessage"></one-to-one>
+        <set name="messagesForIdMessage" table="replymessage" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idReplyMessage" not-null="true" />
+            </key>
+            <many-to-many entity-name="entity.Message">
+                <column name="idMessage" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="messagesForIdReplyMessage" table="replymessage" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idMessage" not-null="true" />
+            </key>
+            <many-to-many entity-name="entity.Message">
+                <column name="idReplyMessage" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>
