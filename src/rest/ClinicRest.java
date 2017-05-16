@@ -14,7 +14,7 @@ public class ClinicRest {
 
 	@Path("{id}")
 	@GET
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String getClinic(@PathParam("id") String id) {
 		int i = Integer.parseInt(id);
 		return ClinicDAO.getClinic(i).toJson();
@@ -22,7 +22,7 @@ public class ClinicRest {
 	
 	@Path("/update/{id}")
 	@PUT
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public boolean update(@PathParam("id") String id){
 		return false;
 	}
