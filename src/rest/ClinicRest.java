@@ -16,8 +16,12 @@ public class ClinicRest {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String getClinic(@PathParam("id") String id) {
-		int i = Integer.parseInt(id);
-		return ClinicDAO.getClinic(i).toJson();
+		try{
+			int i = Integer.parseInt(id);
+			return ClinicDAO.getClinic(i).toJson();
+		}catch(Exception e){
+			return e.getMessage();
+		}
 	}
 	
 	@Path("/update/{id}")
