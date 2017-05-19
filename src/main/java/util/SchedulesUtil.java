@@ -12,4 +12,8 @@ public class SchedulesUtil {
 	 * Khởi tạo dữ liệu Schedules ở đây bằng Contructor tương tự như phần
 	 * Doctor
 	 */
+	
+	public static boolean addSchedules(String username, Schedules schedules){
+		return listAllSchedules.get(username).add(schedules);
+	}
 }
