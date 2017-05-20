@@ -1,10 +1,10 @@
-package restful.healthCare.util;
+package util;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import restful.healthCare.entity.Schedules;
+import entity.Schedules;
 
 public class SchedulesUtil {
 	public static Map<String, List<Schedules>> listAllSchedules = new HashMap<String, List<Schedules>>();

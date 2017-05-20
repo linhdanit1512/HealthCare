@@ -1,10 +1,10 @@
-package restful.healthCare.util;
+package util;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import restful.healthCare.entity.Reservation;
+import entity.Reservation;
 
 public class ReservationUtil {
 	public static Map<String, List<Reservation>> listAllReservation = new HashMap<String, List<Reservation>>();

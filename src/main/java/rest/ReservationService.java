@@ -1,4 +1,4 @@
-package restful.healthCare.rest;
+package rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import restful.healthCare.entity.Reservation;
-import restful.healthCare.util.ReservationUtil;
+import entity.Reservation;
+import util.ReservationUtil;
 
 @Path("/reservation")
 public class ReservationService {

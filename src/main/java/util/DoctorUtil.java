@@ -1,10 +1,10 @@
-package restful.healthCare.util;
+package util;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import restful.healthCare.entity.Doctor;
+import entity.Doctor;
 
 public class DoctorUtil {
 	public static Map<String, Doctor> listAllDoctors = new HashMap<String, Doctor>();
