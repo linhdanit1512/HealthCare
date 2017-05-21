@@ -2,6 +2,7 @@
     <wb-module deploy-name="HealthCare-0.0.1-SNAPSHOT">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
         <property name="context-root" value="HealthCare"/>
         <property name="java-output-path" value="/HealthCare/target/classes"/>
     </wb-module>

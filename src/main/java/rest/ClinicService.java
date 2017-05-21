@@ -12,7 +12,7 @@ import DAO.ClinicDAO;
 import entity.Clinic;
 
 @Path("/clinic")
-public class ClinicRest {
+public class ClinicService {
 
 	@Path("/{id}")
 	@GET
