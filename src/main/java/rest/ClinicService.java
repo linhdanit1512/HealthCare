@@ -46,8 +46,8 @@ public class ClinicService {
 
 	@Path("/delete/{id}")
 	@DELETE
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public boolean delete(@PathParam("id") String id) {
 		try {
 			int i = Integer.parseInt(id);

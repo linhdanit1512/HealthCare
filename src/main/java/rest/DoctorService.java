@@ -97,20 +97,32 @@ public class DoctorService {
 	}
 
 	@GET
-	@Path("/{id}")
-	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	@Path("/all")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getAllDoctor() {
+		try {
+			List<Doctor> list = DoctorDAO.getAllDoctor();
+			return Doctor.toJsonList(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@GET
+	@Path("{id}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public Doctor getDoctor(@PathParam("id") String id) {
+	public String getDoctor(@PathParam("id") String id) {
 		if (id == null)
 			return null;
 		try {
 			int i = Integer.parseInt(id);
 			Doctor doctor = DoctorDAO.getDoctor(i);
-			return doctor;
+			return doctor.toJson();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-
 	}
 }

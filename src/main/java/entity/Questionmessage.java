@@ -1,6 +1,9 @@
 package entity;
 // Generated May 8, 2017 8:56:39 AM by Hibernate Tools 5.2.1.Final
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -84,8 +87,34 @@ public class Questionmessage implements java.io.Serializable {
 	public static Questionmessage parseJson(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Questionmessage doctor = mapper.readValue(json, Questionmessage.class);
-			return doctor;
+			Questionmessage question = mapper.readValue(json, Questionmessage.class);
+			return question;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}public static List<Questionmessage> parseJsonList(String json) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			List<Questionmessage> list = mapper.readValue(json,
+					mapper.getTypeFactory().constructCollectionType(List.class, Questionmessage.class));
+			return list;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String toJsonList(List<Questionmessage> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			for (Questionmessage d : list) {
+				sb.append(d.toJson());
+				sb.append(",");
+			}
+			sb.append("]");
+			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

@@ -1,6 +1,9 @@
 package entity;
 // Generated May 8, 2017 8:56:39 AM by Hibernate Tools 5.2.1.Final
 
+import java.io.IOException;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -160,8 +163,36 @@ public class Patient implements java.io.Serializable {
 	public static Patient parseJson(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Patient doctor = mapper.readValue(json, Patient.class);
-			return doctor;
+			Patient patient = mapper.readValue(json, Patient.class);
+			return patient;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static List<Patient> parseJsonList(String json) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			List<Patient> list = mapper.readValue(json,
+					mapper.getTypeFactory().constructCollectionType(List.class, Patient.class));
+			return list;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String toJsonList(List<Patient> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			for (Patient d : list) {
+				sb.append(d.toJson());
+				sb.append(",");
+			}
+			sb.append("]");
+			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

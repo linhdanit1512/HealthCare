@@ -1,7 +1,9 @@
 package entity;
 // Generated May 8, 2017 8:56:39 AM by Hibernate Tools 5.2.1.Final
 
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -34,7 +36,7 @@ public class Schedules implements java.io.Serializable {
 	private Integer stopTime;
 	private String workspace;
 	@ManyToMany()
-//	@JsonIgnore
+	// @JsonIgnore
 	private Set<Doctor> doctors = new HashSet<Doctor>(0);
 
 	public Schedules() {
@@ -166,8 +168,36 @@ public class Schedules implements java.io.Serializable {
 	public static Schedules parseJson(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Schedules doctor = mapper.readValue(json, Schedules.class);
-			return doctor;
+			Schedules sche = mapper.readValue(json, Schedules.class);
+			return sche;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static List<Schedules> parseJsonList(String json) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			List<Schedules> list = mapper.readValue(json,
+					mapper.getTypeFactory().constructCollectionType(List.class, Schedules.class));
+			return list;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String toJsonList(List<Schedules> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			for (Schedules d : list) {
+				sb.append(d.toJson());
+				sb.append(",");
+			}
+			sb.append("]");
+			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

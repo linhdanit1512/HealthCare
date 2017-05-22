@@ -1,7 +1,9 @@
 package entity;
 // Generated May 8, 2017 8:56:39 AM by Hibernate Tools 5.2.1.Final
 
+import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -117,8 +119,36 @@ public class Clinic implements java.io.Serializable {
 	public static Clinic parseJson(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Clinic doctor = mapper.readValue(json, Clinic.class);
-			return doctor;
+			Clinic clinic = mapper.readValue(json, Clinic.class);
+			return clinic;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static List<Clinic> parseJsonList(String json) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			List<Clinic> list = mapper.readValue(json,
+					mapper.getTypeFactory().constructCollectionType(List.class, Clinic.class));
+			return list;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String toJsonList(List<Clinic> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			for (Clinic d : list) {
+				sb.append(d.toJson());
+				sb.append(",");
+			}
+			sb.append("]");
+			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

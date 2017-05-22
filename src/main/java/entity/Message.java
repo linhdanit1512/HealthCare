@@ -1,8 +1,10 @@
 package entity;
 // Generated May 8, 2017 8:56:39 AM by Hibernate Tools 5.2.1.Final
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -182,7 +184,8 @@ public class Message implements java.io.Serializable {
 	public Set<Message> getMessagesForIdMessage() {
 		return messagesForIdMessage;
 	}
-	@XmlElement 
+
+	@XmlElement
 	public void setMessagesForIdMessage(Set<Message> messagesForIdMessage) {
 		this.messagesForIdMessage = messagesForIdMessage;
 	}
@@ -216,8 +219,36 @@ public class Message implements java.io.Serializable {
 	public static Message parseJson(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Message doctor = mapper.readValue(json, Message.class);
-			return doctor;
+			Message message = mapper.readValue(json, Message.class);
+			return message;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static List<Message> parseJsonList(String json) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			List<Message> list = mapper.readValue(json,
+					mapper.getTypeFactory().constructCollectionType(List.class, Message.class));
+			return list;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String toJsonList(List<Message> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			for (Message d : list) {
+				sb.append(d.toJson());
+				sb.append(",");
+			}
+			sb.append("]");
+			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

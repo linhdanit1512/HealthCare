@@ -1,8 +1,10 @@
 package entity;
 // Generated May 8, 2017 8:56:39 AM by Hibernate Tools 5.2.1.Final
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -24,7 +26,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 @Entity
 @XmlRootElement
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-//@JsonIgnoreProperties(ignoreUnknown = true)
+// @JsonIgnoreProperties(ignoreUnknown = true)
 public class Doctor implements java.io.Serializable {
 
 	/**
@@ -337,6 +339,34 @@ public class Doctor implements java.io.Serializable {
 			ObjectMapper mapper = new ObjectMapper();
 			Doctor doctor = mapper.readValue(json, Doctor.class);
 			return doctor;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static List<Doctor> parseJsonList(String json) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			List<Doctor> list = mapper.readValue(json,
+					mapper.getTypeFactory().constructCollectionType(List.class, Doctor.class));
+			return list;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String toJsonList(List<Doctor> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			for (Doctor d : list) {
+				sb.append(d.toJson());
+				sb.append(",");
+			}
+			sb.append("]");
+			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

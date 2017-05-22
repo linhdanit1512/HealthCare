@@ -1,7 +1,9 @@
 package entity;
 // Generated May 8, 2017 8:56:39 AM by Hibernate Tools 5.2.1.Final
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -133,11 +135,37 @@ public class Reservation implements java.io.Serializable {
 	public static Reservation parseJson(String json) {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			Reservation doctor = mapper.readValue(json, Reservation.class);
-			return doctor;
+			Reservation r = mapper.readValue(json, Reservation.class);
+			return r;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-}
+	public static List<Reservation> parseJsonList(String json) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			List<Reservation> list = mapper.readValue(json,
+					mapper.getTypeFactory().constructCollectionType(List.class, Reservation.class));
+			return list;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String toJsonList(List<Reservation> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			for (Reservation d : list) {
+				sb.append(d.toJson());
+				sb.append(",");
+			}
+			sb.append("]");
+			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}}
