@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -15,6 +16,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Patient implements java.io.Serializable {
 
 	/**

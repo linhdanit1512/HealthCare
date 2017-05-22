@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -21,6 +23,8 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class Doctor implements java.io.Serializable {
 
 	/**
@@ -45,10 +49,13 @@ public class Doctor implements java.io.Serializable {
 	private String wordspace;
 	private Date timeCreate;
 	private Boolean isCheck;
+	@JsonIgnore
 	@ManyToMany(mappedBy = "doctors")
 	private Set<Schedules> scheduleses = new HashSet<Schedules>(0);
+	@JsonIgnore
 	@OneToMany(mappedBy = "doctor")
 	private Set<Reservation> reservations = new HashSet<Reservation>(0);
+	@JsonIgnore
 	@OneToMany(mappedBy = "doctor")
 	private Set<Message> messages = new HashSet<Message>(0);
 
@@ -316,8 +323,8 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public String toJson() {
-		ObjectMapper mapper = new ObjectMapper();
 		try {
+			ObjectMapper mapper = new ObjectMapper();
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -326,8 +333,8 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public static Doctor parseJson(String json) {
-		ObjectMapper mapper = new ObjectMapper();
 		try {
+			ObjectMapper mapper = new ObjectMapper();
 			Doctor doctor = mapper.readValue(json, Doctor.class);
 			return doctor;
 		} catch (Exception e) {

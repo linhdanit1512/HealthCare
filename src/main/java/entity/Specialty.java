@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -18,6 +20,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Specialty implements java.io.Serializable {
 
 	/**
@@ -28,8 +31,10 @@ public class Specialty implements java.io.Serializable {
 	@GeneratedValue
 	private int idSpecialty;
 	private String nameSpecialty;
+	@JsonIgnore
 	@OneToMany(mappedBy = "specialty")
 	private Set<Questionmessage> questionmessages = new HashSet<Questionmessage>(0);
+	@JsonIgnore
 	@OneToMany(mappedBy = "specialty")
 	private Set<Doctor> doctors = new HashSet<Doctor>(0);
 

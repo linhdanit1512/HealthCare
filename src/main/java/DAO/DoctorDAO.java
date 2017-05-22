@@ -1,12 +1,15 @@
 package DAO;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import entity.Doctor;
+import entity.Schedules;
 import util.HibernateUtils;
 
 public class DoctorDAO extends ClassDAO {
@@ -78,7 +81,7 @@ public class DoctorDAO extends ClassDAO {
 		}
 		return false;
 	}
-	
+
 	public static void main(String[] args) {
 		System.out.println(getDoctor(1).toString());
 	}
@@ -116,6 +119,29 @@ public class DoctorDAO extends ClassDAO {
 			session.getTransaction().rollback();
 		}
 		return doctor;
+	}
+
+	public static Set<Schedules> getSchedule(int idDoctor) {
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Doctor.class.getName() + " e where e.idDoctor =:doctor";
+			Query query = session.createQuery(hql);
+			query.setParameter("doctor", idDoctor);
+			query.setMaxResults(1);
+			Set<Schedules> list = new HashSet<Schedules>();
+			if (query.list().size() > 0) {
+				Doctor doctor = (Doctor) query.uniqueResult();
+				if (doctor != null)
+					list = doctor.getScheduleses();
+			}
+			session.getTransaction().commit();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			return null;
+		}
 	}
 
 }

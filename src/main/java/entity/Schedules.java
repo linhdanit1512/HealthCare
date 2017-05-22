@@ -11,6 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -18,6 +19,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @Entity
 @XmlRootElement
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Schedules implements java.io.Serializable {
 
 	/**
@@ -32,6 +34,7 @@ public class Schedules implements java.io.Serializable {
 	private Integer stopTime;
 	private String workspace;
 	@ManyToMany()
+//	@JsonIgnore
 	private Set<Doctor> doctors = new HashSet<Doctor>(0);
 
 	public Schedules() {

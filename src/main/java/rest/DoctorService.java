@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -34,13 +35,14 @@ public class DoctorService {
 	}
 
 	@POST
-	@Path("/register/{doctor}")
-	@Produces(MediaType.APPLICATION_XML + ";charset=utf-8")
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public boolean register(@PathParam("doctor") Doctor doctor) {
-		if(doctor==null)
+	@Path("/register/{doctorJson}")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	public boolean register(@PathParam("doctorJson") String doctorjson) {
+		if (doctorjson == null)
 			return false;
 		try {
+			Doctor doctor = Doctor.parseJson(doctorjson);
 			if (DoctorDAO.register(doctor)) {
 				if (DoctorDAO.insert(doctor))
 					return true;
@@ -53,4 +55,62 @@ public class DoctorService {
 		return false;
 	}
 
+	@PUT
+	@Path("/update/{doctorJson}")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	public boolean update(@PathParam("doctorJson") String json) {
+		if (json == null)
+			return false;
+		try {
+			Doctor doctor = Doctor.parseJson(json);
+			if (doctor != null)
+				if (DoctorDAO.update(doctor))
+					return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
+	@DELETE
+	@Path("/delete/{id}")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	public boolean delete(@PathParam("id") String id) {
+		if (id == null)
+			return false;
+		try {
+			int i = Integer.parseInt(id);
+			Doctor doctor = DoctorDAO.getDoctor(i);
+			if (doctor != null)
+				if (DoctorDAO.delete(doctor))
+					return true;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return false;
+	}
+
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public Doctor getDoctor(@PathParam("id") String id) {
+		if (id == null)
+			return null;
+		try {
+			int i = Integer.parseInt(id);
+			Doctor doctor = DoctorDAO.getDoctor(i);
+			return doctor;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
 }

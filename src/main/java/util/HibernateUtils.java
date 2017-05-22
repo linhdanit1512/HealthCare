@@ -1,19 +1,21 @@
 package util;
 
+import java.io.Serializable;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-//import org.hibernate.service.ServiceRegistry;
 
 /**
  * 
  * @author LinhDan
  * 
  */
-public class HibernateUtils {
+public class HibernateUtils implements Serializable{
 
+	private static final long serialVersionUID = 3495803161122021515L;
 	private static SessionFactory sessionFactory = buildSessionFactory();
 
 	/**

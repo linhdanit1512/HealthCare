@@ -22,7 +22,7 @@ public class ClinicDAO extends ClassDAO{
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Clinic.class.getName() + " e  order by e.idClinic asc";
-			Query query = session.createQuery(hql);
+			Query<Clinic> query = session.createQuery(hql);
 			clinics = query.list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
@@ -38,11 +38,11 @@ public class ClinicDAO extends ClassDAO{
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Clinic.class.getName() + " e where e.idClinic =:clinic";
-			Query query = session.createQuery(hql);
+			Query<Clinic> query = session.createQuery(hql);
 			query.setParameter("clinic", id);
 			query.setMaxResults(1);
 			if (query.list().size() > 0)
-				clinic = (Clinic) query.list().get(0);
+				clinic = query.list().get(0);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
