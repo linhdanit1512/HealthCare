@@ -22,27 +22,42 @@ public class ClinicService {
 			int i = Integer.parseInt(id);
 			return ClinicDAO.getClinic(i).toJson();
 		} catch (Exception e) {
-			return e.getMessage();
+			e.printStackTrace();
+			return null;
 		}
 	}
 
-//	@Path("/all")
-//	@GET
-//	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-//	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-//	public Cookie test() {
-//		List<Clinic> list = ClinicDAO.getAllClinic();
-//		StringBuilder sb = new StringBuilder();
-//		sb.append("[");
-//		for (int i = 0; i < list.size(); i++) {
-//			sb.append(list.get(i).toJson());
-//			if (i < list.size() - 1)
-//				sb.append(",");
-//		}
-//		sb.append("]");
-//		Cookie cookie = new Cookie("listClinic", sb.toString());
-//		return cookie;
-//	}
+	@GET
+	@Path("/search/name/{name}")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String searchByName(@PathParam("name") String name) {
+		try {
+			if (name != null && !"".equals(name)) {
+				return Clinic.toJsonList(ClinicDAO.getClinicByName(name));
+			} else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	@GET
+	@Path("/search/address/{address}")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON + ";charset=ut8-8")
+	public String searchByAddress(@PathParam("address") String address) {
+		try {
+			if (address != null && !"".equals(address)) {
+				return Clinic.toJsonList(ClinicDAO.getClinicByAddress(address));
+			} else
+				return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	@Path("/delete/{id}")
 	@DELETE

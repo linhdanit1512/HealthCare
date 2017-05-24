@@ -2,6 +2,7 @@ package rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -15,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import DAO.DoctorDAO;
 import entity.Doctor;
+import entity.Schedules;
 import util.DoctorUtil;
 
 @Path("/doctor")
@@ -125,4 +127,27 @@ public class DoctorService {
 			return null;
 		}
 	}
+	
+	@GET
+	@Path("/schedule/{id}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getSchedule(@PathParam("id") String id) {
+		if (id == null)
+			return null;
+		try {
+			int i = Integer.parseInt(id);
+			Set<Schedules> set = DoctorDAO.getSchedule(i);
+			List<Schedules> list = new ArrayList<>();
+			for(Schedules sche : set){
+				list.add(sche);
+			}
+			return Schedules.toJsonList(list);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 }

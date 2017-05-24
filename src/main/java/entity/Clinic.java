@@ -140,18 +140,22 @@ public class Clinic implements java.io.Serializable {
 	}
 
 	public static String toJsonList(List<Clinic> list) {
-		try {
-			StringBuilder sb = new StringBuilder();
-			sb.append("[");
-			for (Clinic d : list) {
-				sb.append(d.toJson());
-				sb.append(",");
+		if (list != null)
+			try {
+				StringBuilder sb = new StringBuilder();
+				sb.append("[");
+				for (int i = 0; i < list.size() - 1; i++) {
+					sb.append(list.get(i).toJson());
+					sb.append(",");
+				}
+				sb.append(list.get(list.size() - 1).toJson());
+				sb.append("]");
+				return sb.toString();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
 			}
-			sb.append("]");
-			return sb.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
+		else
 			return null;
-		}
 	}
 }

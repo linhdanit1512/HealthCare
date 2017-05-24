@@ -32,6 +32,25 @@ public class SpecialtyDAO extends ClassDAO {
 		return specialtys;
 	}
 
+	public static Specialty search(String nameSpacialty) {
+		Specialty specialty = null;
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Specialty.class.getName() + " e where e.nameSpecialty =:specialty";
+			Query query = session.createQuery(hql);
+			query.setParameter("specialty", nameSpacialty);
+			query.setMaxResults(1);
+			if (query.list().size() > 0)
+				specialty = (Specialty) query.list().get(0);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return specialty;
+	}
+
 	public static Specialty getSpecialty(int id) {
 		Specialty specialty = null;
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();

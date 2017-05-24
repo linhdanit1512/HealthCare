@@ -9,7 +9,7 @@ import org.hibernate.Session;
 import entity.Clinic;
 import util.HibernateUtils;
 
-public class ClinicDAO extends ClassDAO{
+public class ClinicDAO extends ClassDAO {
 
 	/**
 	 * 
@@ -31,7 +31,7 @@ public class ClinicDAO extends ClassDAO{
 		}
 		return clinics;
 	}
-	
+
 	public static Clinic getClinic(int id) {
 		Clinic clinic = null;
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
@@ -50,5 +50,39 @@ public class ClinicDAO extends ClassDAO{
 		}
 		return clinic;
 	}
-	
+
+	public static List<Clinic> getClinicByName(String name) {
+		List<Clinic> clinic = null;
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Clinic.class.getName() + " e where e.nameClinic like '%" + name + "%'";
+			Query<Clinic> query = session.createQuery(hql);
+			if (query.list().size() > 0)
+				clinic = query.list();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return clinic;
+	}
+
+	public static List<Clinic> getClinicByAddress(String address) {
+		List<Clinic> clinic = null;
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Clinic.class.getName() + " e where e.address like '%" + address + "%'";
+			Query<Clinic> query = session.createQuery(hql);
+			if (query.list().size() > 0)
+				clinic = query.list();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return clinic;
+	}
+
 }
