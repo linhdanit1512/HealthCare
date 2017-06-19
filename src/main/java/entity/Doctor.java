@@ -383,4 +383,5 @@ public class Doctor implements java.io.Serializable {
 			scheduleses.add(schedules);
 		}
 	}
+
 }

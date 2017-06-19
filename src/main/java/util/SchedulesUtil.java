@@ -25,5 +25,4 @@ public class SchedulesUtil {
 		schedules.setStopTime(shift.getStopTime());
 		return schedules;
 	}
-	
 }
