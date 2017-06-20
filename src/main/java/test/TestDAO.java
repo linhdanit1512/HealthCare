@@ -1,6 +1,7 @@
 package test;
 
-import DAO.ClinicDAO;
+import DAO.DoctorDAO;
+import entity.Schedules;
 import util.HibernateUtils;
 
 public class TestDAO {
@@ -17,8 +18,9 @@ public class TestDAO {
 //		System.out.println(ScheduleDAO.getAllSchedules() + "\n");
 //		System.out.println(SpecialtyDAO.getAllSpecialty() + "\n");
 //		System.out.println(UserDAO.getAllUsers());
-//		System.out.println(DoctorDAO.getSchedule(1));
-		System.out.println(ClinicDAO.getClinicByAddress("Thu duc"));
+		System.out.println(Schedules.toJsonList(DoctorDAO.getSchedule(1)));
+//		System.out.println(Doctor.toJsonList(DoctorDAO.getAllDoctor()));
+//		System.out.println(HibernateUtils.getSessionFactory());
 		 HibernateUtils.shutdown();
 	}
 }
