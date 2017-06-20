@@ -31,7 +31,7 @@ public class DoctorService {
 
 	@GET
 	@Path("/login/{user}/{pass}")
-	@Produces(MediaType.APPLICATION_XML + ";charset=utf-8")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public Doctor login(@PathParam("user") String username, @PathParam("pass") String password) {
 		return DoctorDAO.login(username, password);
 	}
@@ -104,6 +104,7 @@ public class DoctorService {
 	public String getAllDoctor() {
 		try {
 			List<Doctor> list = DoctorDAO.getAllDoctor();
+			
 			return Doctor.toJsonList(list);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -112,9 +113,9 @@ public class DoctorService {
 	}
 
 	@GET
-	@Path("{id}")
+	@Path("/get/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String getDoctor(@PathParam("id") String id) {
 		if (id == null)
 			return null;
@@ -127,11 +128,11 @@ public class DoctorService {
 			return null;
 		}
 	}
-	
+
 	@GET
 	@Path("/schedule/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String getSchedule(@PathParam("id") String id) {
 		if (id == null)
 			return null;
@@ -139,15 +140,15 @@ public class DoctorService {
 			int i = Integer.parseInt(id);
 			Set<Schedules> set = DoctorDAO.getSchedule(i);
 			List<Schedules> list = new ArrayList<>();
-			for(Schedules sche : set){
-				list.add(sche);
-			}
+			if (set != null)
+				for (Schedules sche : set) {
+					list.add(sche);
+				}
 			return Schedules.toJsonList(list);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	
+
 }

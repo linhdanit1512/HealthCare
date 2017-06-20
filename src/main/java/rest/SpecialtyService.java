@@ -16,7 +16,7 @@ import entity.Specialty;
 @Path("/specialty")
 public class SpecialtyService {
 
-	@Path("/{id}")
+	@Path("/get/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String getSpecialty(@PathParam("id") String id) {

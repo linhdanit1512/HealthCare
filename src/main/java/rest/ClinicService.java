@@ -1,5 +1,7 @@
 package rest;
 
+import java.util.List;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,13 +16,18 @@ import entity.Clinic;
 @Path("/clinic")
 public class ClinicService {
 
-	@Path("/{id}")
+	@Path("/get/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String getClinic(@PathParam("id") String id) {
 		try {
 			int i = Integer.parseInt(id);
-			return ClinicDAO.getClinic(i).toJson();
+			Clinic clinic = ClinicDAO.getClinic(i);
+			if (clinic != null)
+				return clinic.toJson();
+			else
+				return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -29,7 +36,7 @@ public class ClinicService {
 
 	@GET
 	@Path("/search/name/{name}")
-	@Consumes(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String searchByName(@PathParam("name") String name) {
 		try {
@@ -45,12 +52,16 @@ public class ClinicService {
 
 	@GET
 	@Path("/search/address/{address}")
-	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.APPLICATION_JSON + ";charset=ut8-8")
+	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String searchByAddress(@PathParam("address") String address) {
 		try {
 			if (address != null && !"".equals(address)) {
-				return Clinic.toJsonList(ClinicDAO.getClinicByAddress(address));
+				List<Clinic> list = ClinicDAO.getClinicByAddress(address);
+				if (list != null)
+					return Clinic.toJsonList(list);
+				else
+					return null;
 			} else
 				return null;
 		} catch (Exception e) {

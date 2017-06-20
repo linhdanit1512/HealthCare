@@ -30,11 +30,11 @@ public class Schedules implements java.io.Serializable {
 	private static final long serialVersionUID = -8454404002053670572L;
 	@Id
 	@GeneratedValue
-	
+
 	private int idSchedule;
 	/*
 	 * ngay thu may trong tuan
-	 * */
+	 */
 	private String dates;
 	private Integer startTime;
 	private Integer stopTime;
@@ -202,6 +202,29 @@ public class Schedules implements java.io.Serializable {
 			}
 			sb.append(list.get(list.size() - 1).toJson());
 			sb.append("]");
+			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static String toJsonList(Set<Schedules> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			int count = 0;
+			for (Schedules sc : list) {
+				if (count < list.size() - 1) {
+					sb.append(sc.toJson());
+					sb.append(",");
+					count++;
+				} else {
+					sb.append(sc.toJson());
+					sb.append("]");
+					break;
+				}
+			}
 			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
