@@ -374,4 +374,14 @@ public class Doctor implements java.io.Serializable {
 		}
 	}
 
+	public void registerShedules(List<Shift> list){
+		for (Shift shift : list) {
+			Schedules schedules = new Schedules();
+			schedules.setDates(shift.getDate());
+			schedules.setStartTime(shift.getStartTime());
+			schedules.setStopTime(shift.getStopTime());
+			scheduleses.add(schedules);
+		}
+	}
+
 }
