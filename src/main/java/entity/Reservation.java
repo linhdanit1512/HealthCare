@@ -34,8 +34,8 @@ public class Reservation implements java.io.Serializable {
 	private Doctor doctor;
 	@ManyToOne
 	private Users users;
-//	@Field(index = Index.YES, analyze=Analyze.NO, store = Store.YES)
-//	@DateBridge(resolution = Resolution.DAY)
+	// @Field(index = Index.YES, analyze=Analyze.NO, store = Store.YES)
+	// @DateBridge(resolution = Resolution.DAY)
 	private Date dates;
 	private Boolean isConfirm;
 
@@ -144,6 +144,7 @@ public class Reservation implements java.io.Serializable {
 			return null;
 		}
 	}
+
 	public static List<Reservation> parseJsonList(String json) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -160,15 +161,16 @@ public class Reservation implements java.io.Serializable {
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("[");
-			for (int i = 0; i < list.size() - 1; i++) {
+			for (int i = 0; i < list.size(); i++) {
+				if (i > 0)
+					sb.append(",");
 				sb.append(list.get(i).toJson());
-				sb.append(",");
 			}
-			sb.append(list.get(list.size() - 1).toJson());
 			sb.append("]");
 			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-	}}
+	}
+}

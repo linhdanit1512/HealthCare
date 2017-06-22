@@ -144,11 +144,11 @@ public class Clinic implements java.io.Serializable {
 			try {
 				StringBuilder sb = new StringBuilder();
 				sb.append("[");
-				for (int i = 0; i < list.size() - 1; i++) {
+				for (int i = 0; i < list.size(); i++) {
+					if (i > 0)
+						sb.append(",");
 					sb.append(list.get(i).toJson());
-					sb.append(",");
 				}
-				sb.append(list.get(list.size() - 1).toJson());
 				sb.append("]");
 				return sb.toString();
 			} catch (Exception e) {

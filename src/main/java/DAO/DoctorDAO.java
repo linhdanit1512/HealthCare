@@ -25,7 +25,7 @@ public class DoctorDAO extends ClassDAO {
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
-			String hql = "from " + Doctor.class.getName() + " e where e.username =:name and e.passwords =:pass";
+			String hql = "from " + Doctor.class.getName() + " e where e.username =:name and e.passwords =:pass and e.isCheck = true";
 			Query query = session.createQuery(hql);
 			query.setParameter("name", username);
 			query.setParameter("pass", pass);
