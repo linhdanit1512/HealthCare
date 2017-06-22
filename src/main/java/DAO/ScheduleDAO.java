@@ -40,7 +40,6 @@ public class ScheduleDAO extends ClassDAO {
 			String hql = "from " + Schedules.class.getName() + " e where e.idSchedule =:schedule";
 			Query query = session.createQuery(hql);
 			query.setParameter("schedule", id);
-			query.setMaxResults(1);
 			if (query.list().size() > 0)
 				schedules = (Schedules) query.list().get(0);
 			session.getTransaction().commit();

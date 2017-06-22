@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cnpm</groupId>
-	<artifactId>HealthCare</artifactId>
+	<artifactId>HealthCareService</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>HealthCare Maven Webapp</name>
+	<name>HealthCareService Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 
@@ -48,22 +48,37 @@
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-bundle</artifactId>
-			<version>1.19.3</version>
+			<version>1.19.4</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-json</artifactId>
-			<version>1.19.3</version>
+			<version>1.19.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-server -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.19.4</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-servlet -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-servlet</artifactId>
-			<version>1.19.3</version>
+			<version>1.19.4</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.19.4</version>
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<!-- <dependency> -->
@@ -97,6 +112,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>HealthCare</finalName>
+		<finalName>HealthCareService</finalName>
 	</build>
 </project>

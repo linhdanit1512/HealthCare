@@ -118,14 +118,15 @@ public class DoctorService {
 	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String getDoctor(@PathParam("id") String id) {
 		if (id == null)
-			return null;
+			return "Khong co";
 		try {
+			System.out.println(id);
 			int i = Integer.parseInt(id);
 			Doctor doctor = DoctorDAO.getDoctor(i);
 			return doctor.toJson();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "Sai dinh dang";
 		}
 	}
 
@@ -139,7 +140,7 @@ public class DoctorService {
 		try {
 			int i = Integer.parseInt(id);
 			Set<Schedules> set = DoctorDAO.getSchedule(i);
-			List<Schedules> list = new ArrayList<>();
+			List<Schedules> list = new ArrayList<Schedules>();
 			if (set != null)
 				for (Schedules sche : set) {
 					list.add(sche);

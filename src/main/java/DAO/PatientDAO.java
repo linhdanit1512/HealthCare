@@ -39,7 +39,6 @@ public class PatientDAO extends ClassDAO{
 			String hql = "from " + Patient.class.getName() + " e where e.idPatient =:patient";
 			Query query = session.createQuery(hql);
 			query.setParameter("patient", id);
-			query.setMaxResults(1);
 			if (query.list().size() > 0)
 				patient = (Patient) query.list().get(0);
 			session.getTransaction().commit();

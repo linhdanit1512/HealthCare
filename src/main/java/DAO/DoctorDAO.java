@@ -28,7 +28,6 @@ public class DoctorDAO extends ClassDAO {
 			Query query = session.createQuery(hql);
 			query.setParameter("name", username);
 			query.setParameter("pass", pass);
-			query.setMaxResults(1);
 			if (query.list().size() > 0)
 				doctor = (Doctor) query.list().get(0);
 			session.getTransaction().commit();
@@ -110,9 +109,7 @@ public class DoctorDAO extends ClassDAO {
 			String hql = "from " + Doctor.class.getName() + " e where e.idDoctor =:doctor";
 			Query query = session.createQuery(hql);
 			query.setParameter("doctor", id);
-			query.setMaxResults(1);
-			if (query.list().size() > 0)
-				doctor = (Doctor) query.list().get(0);
+			doctor = (Doctor) query.getSingleResult();
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,11 +123,11 @@ public class DoctorDAO extends ClassDAO {
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Doctor.class.getName() + " e where e.idDoctor =:doctor";
-			Query query = session.createQuery(hql);
+			Query<Doctor> query = session.createQuery(hql);
 			query.setParameter("doctor", idDoctor);
 			query.setMaxResults(1);
 			Set<Schedules> list = new HashSet<Schedules>();
-			if (query.list().size() > 0) {
+			if (query.list() != null && query.list().size() > 0) {
 				Doctor doctor = (Doctor) query.uniqueResult();
 				if (doctor != null)
 					list = doctor.getScheduleses();

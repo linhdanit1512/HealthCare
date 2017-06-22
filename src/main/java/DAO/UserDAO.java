@@ -40,7 +40,6 @@ public class UserDAO extends ClassDAO {
 			String hql = "from " + Users.class.getName() + " e where e.idUser =:user";
 			Query query = session.createQuery(hql);
 			query.setParameter("user", id);
-			query.setMaxResults(1);
 			if (query.list().size() > 0)
 				user = (Users) query.list().get(0);
 			session.getTransaction().commit();

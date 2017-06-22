@@ -40,7 +40,6 @@ public class ClinicDAO extends ClassDAO {
 			String hql = "from " + Clinic.class.getName() + " e where e.idClinic =:clinic";
 			Query<Clinic> query = session.createQuery(hql);
 			query.setParameter("clinic", id);
-			query.setMaxResults(1);
 			if (query.list().size() > 0)
 				clinic = query.list().get(0);
 			session.getTransaction().commit();

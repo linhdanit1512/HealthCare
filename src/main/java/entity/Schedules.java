@@ -215,16 +215,12 @@ public class Schedules implements java.io.Serializable {
 			sb.append("[");
 			int count = 0;
 			for (Schedules sc : list) {
-				if (count < list.size() - 1) {
-					sb.append(sc.toJson());
+				if (count > 0)
 					sb.append(",");
-					count++;
-				} else {
-					sb.append(sc.toJson());
-					sb.append("]");
-					break;
-				}
+				sb.append(sc.toJson());
+				count++;
 			}
+			sb.append("]");
 			return sb.toString();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -39,7 +39,6 @@ public class MessageDAO extends ClassDAO{
 			String hql = "from " + Message.class.getName() + " e where e.idMessage =:message";
 			Query query = session.createQuery(hql);
 			query.setParameter("message", id);
-			query.setMaxResults(1);
 			if (query.list().size() > 0)
 				message = (Message) query.list().get(0);
 			session.getTransaction().commit();

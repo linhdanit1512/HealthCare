@@ -40,7 +40,6 @@ public class SpecialtyDAO extends ClassDAO {
 			String hql = "from " + Specialty.class.getName() + " e where e.nameSpecialty =:specialty";
 			Query query = session.createQuery(hql);
 			query.setParameter("specialty", nameSpacialty);
-			query.setMaxResults(1);
 			if (query.list().size() > 0)
 				specialty = (Specialty) query.list().get(0);
 			session.getTransaction().commit();
@@ -59,7 +58,6 @@ public class SpecialtyDAO extends ClassDAO {
 			String hql = "from " + Specialty.class.getName() + " e where e.idSpecialty =:specialty";
 			Query query = session.createQuery(hql);
 			query.setParameter("specialty", id);
-			query.setMaxResults(1);
 			if (query.list().size() > 0)
 				specialty = (Specialty) query.list().get(0);
 			session.getTransaction().commit();
