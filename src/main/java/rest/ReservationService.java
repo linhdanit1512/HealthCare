@@ -13,16 +13,15 @@ import entity.Reservation;
 import util.ReservationUtil;
 
 @Path("/reservation")
+@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class ReservationService {
 	@GET
-	@Produces(MediaType.APPLICATION_XML + ";charset=utf-8")
 	public List<List<Reservation>> getReservations() {
 		return new ArrayList<List<Reservation>>(ReservationUtil.listAllReservation.values());
 	}
 	
 	@GET
 	@Path("/{user}")
-	@Produces(MediaType.APPLICATION_XML + ";charset=utf-8")
 	public List<Reservation> getReservationOfDoctor(@PathParam("user") String username) {
 		return ReservationUtil.listAllReservation.get(username);
 	}
