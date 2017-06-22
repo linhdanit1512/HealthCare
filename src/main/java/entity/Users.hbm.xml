@@ -3,37 +3,41 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated May 8, 2017 8:56:40 AM by Hibernate Tools 5.2.1.Final -->
 <hibernate-mapping>
-    <class name="entity.Users" table="users" optimistic-lock="version">
-        <id name="idUser" type="int">
-            <column name="idUser" />
-            <generator class="assigned" />
-        </id>
-        <property name="email" type="string">
-            <column name="email" length="128" unique="true" />
-        </property>
-        <property name="passwords" type="string">
-            <column name="passwords" length="28" />
-        </property>
-        <property name="timeCreate" type="timestamp">
-            <column name="timeCreate" length="0" not-null="true" />
-        </property>
-        <set name="reservations" table="reservation" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idUser" />
-            </key>
-            <one-to-many class="entity.Reservation" />
-        </set>
-        <set name="patients" table="patient" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idUser" />
-            </key>
-            <one-to-many class="entity.Patient" />
-        </set>
-        <set name="messages" table="message" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idUser" />
-            </key>
-            <one-to-many class="entity.Message" />
-        </set>
-    </class>
+	<class name="entity.Users" table="users" optimistic-lock="version"
+		dynamic-insert="true">
+		<id name="idUser" type="int">
+			<column name="idUser" />
+			<generator class="assigned" />
+		</id>
+		<property name="email" type="string">
+			<column name="email" length="128" unique="true" />
+		</property>
+		<property name="passwords" type="string">
+			<column name="passwords" length="28" />
+		</property>
+		<property name="timeCreate" type="timestamp">
+			<column name="timeCreate" length="0" not-null="true" />
+		</property>
+		<set name="reservations" table="reservation" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="idUser" />
+			</key>
+			<one-to-many class="entity.Reservation" />
+		</set>
+		<set name="patients" table="patient" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="idUser" />
+			</key>
+			<one-to-many class="entity.Patient" />
+		</set>
+		<set name="messages" table="message" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="idUser" />
+			</key>
+			<one-to-many class="entity.Message" />
+		</set>
+	</class>
 </hibernate-mapping>

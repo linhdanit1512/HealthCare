@@ -81,6 +81,36 @@ public class DoctorDAO extends ClassDAO {
 		}
 		return false;
 	}
+	
+	public static boolean register(String jsonDoctor){
+		if (jsonDoctor != null) {
+			Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+			try {
+				Doctor doctor = Doctor.parseJson(jsonDoctor);
+				List<Doctor> list = new ArrayList<Doctor>();
+				session.getTransaction().begin();
+
+				String hql = "from " + Doctor.class.getName()
+						+ " e where e.idDoctor =:id or e.username=:username or e.passport =:passport";
+				Query query = session.createQuery(hql);
+				query.setParameter("id", doctor.getIdDoctor());
+				query.setParameter("username", doctor.getUsername());
+				query.setParameter("passport", doctor.getPassport());
+
+				list.addAll(query.list());
+				session.getTransaction().commit();
+				if (list.size() > 0)
+					return false;
+				else
+					return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				session.getTransaction().rollback();
+				return false;
+			}
+		}
+		return false;
+	}
 
 	public static void main(String[] args) {
 		System.out.println(getDoctor(1).toString());

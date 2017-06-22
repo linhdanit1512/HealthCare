@@ -3,28 +3,29 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated May 8, 2017 8:56:40 AM by Hibernate Tools 5.2.1.Final -->
 <hibernate-mapping>
-    <class name="entity.Patient" table="patient" optimistic-lock="version">
-        <id name="idPatient" type="int">
-            <column name="idPatient" />
-            <generator class="assigned" />
-        </id>
-        <many-to-one name="users" class="entity.Users" fetch="select">
-            <column name="idUser" />
-        </many-to-one>
-        <property name="namePatient" type="string">
-            <column name="namePatient" length="100" />
-        </property>
-        <property name="age" type="java.lang.Integer">
-            <column name="age" />
-        </property>
-        <property name="gender" type="java.lang.Boolean">
-            <column name="gender" />
-        </property>
-        <property name="address" type="string">
-            <column name="address" length="200" />
-        </property>
-        <property name="monthAge" type="java.lang.Integer">
-            <column name="monthAge" />
-        </property>
-    </class>
+	<class name="entity.Patient" table="patient" optimistic-lock="version"
+		dynamic-insert="true">
+		<id name="idPatient" type="int">
+			<column name="idPatient" />
+			<generator class="assigned" />
+		</id>
+		<many-to-one name="users" class="entity.Users" fetch="select">
+			<column name="idUser" />
+		</many-to-one>
+		<property name="namePatient" type="string">
+			<column name="namePatient" length="100" />
+		</property>
+		<property name="age" type="java.lang.Integer">
+			<column name="age" />
+		</property>
+		<property name="gender" type="java.lang.Boolean">
+			<column name="gender" />
+		</property>
+		<property name="address" type="string">
+			<column name="address" length="200" />
+		</property>
+		<property name="monthAge" type="java.lang.Integer">
+			<column name="monthAge" />
+		</property>
+	</class>
 </hibernate-mapping>

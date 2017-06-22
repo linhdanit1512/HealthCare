@@ -3,7 +3,8 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated May 8, 2017 8:56:40 AM by Hibernate Tools 5.2.1.Final -->
 <hibernate-mapping>
-    <class name="entity.Doctor" table="doctor" optimistic-lock="version">
+    <class name="entity.Doctor" table="doctor" optimistic-lock="version"
+	dynamic-insert="true">
         <id name="idDoctor" type="int">
             <column name="idDoctor" />
             <generator class="assigned" />
@@ -22,6 +23,9 @@
         </property>
         <property name="passwords" type="string">
             <column name="passwords" length="28" />
+        </property>
+         <property name="email" type="string">
+            <column name="email" length="30" />
         </property>
         <property name="phone" type="string">
             <column name="phone" length="15" />

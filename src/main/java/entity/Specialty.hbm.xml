@@ -3,25 +3,28 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated May 8, 2017 8:56:40 AM by Hibernate Tools 5.2.1.Final -->
 <hibernate-mapping>
-    <class name="entity.Specialty" table="specialty" optimistic-lock="version">
-        <id name="idSpecialty" type="int">
-            <column name="idSpecialty" />
-            <generator class="assigned" />
-        </id>
-        <property name="nameSpecialty" type="string">
-            <column name="nameSpecialty" length="200" />
-        </property>
-        <set name="questionmessages" table="questionmessage" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idSpecialty" />
-            </key>
-            <one-to-many class="entity.Questionmessage" />
-        </set>
-        <set name="doctors" table="doctor" inverse="true" lazy="true" fetch="select">
-            <key>
-                <column name="idSpecialty" />
-            </key>
-            <one-to-many class="entity.Doctor" />
-        </set>
-    </class>
+	<class name="entity.Specialty" table="specialty" optimistic-lock="version"
+		dynamic-insert="true">
+		<id name="idSpecialty" type="int">
+			<column name="idSpecialty" />
+			<generator class="assigned" />
+		</id>
+		<property name="nameSpecialty" type="string">
+			<column name="nameSpecialty" length="200" />
+		</property>
+		<set name="questionmessages" table="questionmessage" inverse="true"
+			lazy="true" fetch="select">
+			<key>
+				<column name="idSpecialty" />
+			</key>
+			<one-to-many class="entity.Questionmessage" />
+		</set>
+		<set name="doctors" table="doctor" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="idSpecialty" />
+			</key>
+			<one-to-many class="entity.Doctor" />
+		</set>
+	</class>
 </hibernate-mapping>
