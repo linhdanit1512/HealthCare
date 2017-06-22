@@ -48,7 +48,6 @@ public class Doctor implements java.io.Serializable {
 	private String degree;
 	private Integer experience;
 	private String address;
-	private String wordspace;
 	private Date timeCreate;
 	private Boolean isCheck;
 	@JsonIgnore
@@ -70,7 +69,7 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(Clinic clinic, Specialty specialty, String username, String nameDoctor, String passwords,
-			String phone, String passport, String degree, Integer experience, String address, String wordspace,
+			String phone, String passport, String degree, Integer experience, String address,
 			Date timeCreate, Boolean isCheck) {
 		super();
 		this.clinic = clinic;
@@ -83,14 +82,13 @@ public class Doctor implements java.io.Serializable {
 		this.degree = degree;
 		this.experience = experience;
 		this.address = address;
-		this.wordspace = wordspace;
 		this.timeCreate = timeCreate;
 		this.isCheck = isCheck;
 	}
 
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
 			String passwords, String phone, String passport, String degree, Integer experience, String address,
-			String wordspace, Date timeCreate, Boolean isCheck) {
+			 Date timeCreate, Boolean isCheck) {
 		super();
 		this.idDoctor = idDoctor;
 		this.clinic = clinic;
@@ -103,14 +101,13 @@ public class Doctor implements java.io.Serializable {
 		this.degree = degree;
 		this.experience = experience;
 		this.address = address;
-		this.wordspace = wordspace;
 		this.timeCreate = timeCreate;
 		this.isCheck = isCheck;
 	}
 
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
 			String passwords, String phone, String passport, String degree, Integer experience, String address,
-			String wordspace, Date timeCreate, Boolean isCheck, Set<Schedules> scheduleses,
+			 Date timeCreate, Boolean isCheck, Set<Schedules> scheduleses,
 			Set<Reservation> reservations, Set<Message> messages) {
 		super();
 		this.idDoctor = idDoctor;
@@ -124,7 +121,6 @@ public class Doctor implements java.io.Serializable {
 		this.degree = degree;
 		this.experience = experience;
 		this.address = address;
-		this.wordspace = wordspace;
 		this.timeCreate = timeCreate;
 		this.isCheck = isCheck;
 		this.scheduleses = scheduleses;
@@ -231,14 +227,6 @@ public class Doctor implements java.io.Serializable {
 		this.address = address;
 	}
 
-	public String getWordspace() {
-		return this.wordspace;
-	}
-
-	@XmlElement
-	public void setWordspace(String wordspace) {
-		this.wordspace = wordspace;
-	}
 
 	public Date getTimeCreate() {
 		return this.timeCreate;
@@ -310,8 +298,6 @@ public class Doctor implements java.io.Serializable {
 		builder.append(experience);
 		builder.append(", address=");
 		builder.append(address);
-		builder.append(", wordspace=");
-		builder.append(wordspace);
 		builder.append(", timeCreate=");
 		builder.append(timeCreate);
 		builder.append(", isCheck=");

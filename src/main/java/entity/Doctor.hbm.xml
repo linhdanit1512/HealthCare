@@ -38,9 +38,6 @@
         <property name="address" type="string">
             <column name="address" length="200" />
         </property>
-        <property name="wordspace" type="string">
-            <column name="wordspace" length="200" />
-        </property>
         <property name="timeCreate" type="timestamp">
             <column name="timeCreate" length="0" not-null="true" />
         </property>

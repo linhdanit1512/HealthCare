@@ -31,9 +31,9 @@ public class DoctorService {
 
 	@GET
 	@Path("/login/{user}/{pass}")
-	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public Doctor login(@PathParam("user") String username, @PathParam("pass") String password) {
-		return DoctorDAO.login(username, password);
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String login(@PathParam("user") String username, @PathParam("pass") String password) {
+		return DoctorDAO.login(username, password).toJson();
 	}
 
 	@POST

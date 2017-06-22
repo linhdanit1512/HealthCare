@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import entity.Doctor;
+import entity.Reservation;
 import entity.Schedules;
 import util.HibernateUtils;
 
@@ -125,7 +126,6 @@ public class DoctorDAO extends ClassDAO {
 			String hql = "from " + Doctor.class.getName() + " e where e.idDoctor =:doctor";
 			Query<Doctor> query = session.createQuery(hql);
 			query.setParameter("doctor", idDoctor);
-			query.setMaxResults(1);
 			Set<Schedules> list = new HashSet<Schedules>();
 			if (query.list() != null && query.list().size() > 0) {
 				Doctor doctor = (Doctor) query.uniqueResult();
@@ -139,6 +139,45 @@ public class DoctorDAO extends ClassDAO {
 			session.getTransaction().rollback();
 			return null;
 		}
+	}
+
+	public static List<Reservation> getReservation(int id) {
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Reservation.class.getName() + " e where e.doctor.idDoctor =:doctor";
+			Query<Reservation> query = session.createQuery(hql);
+			query.setParameter("doctor", id);
+			List<Reservation> list = query.list();
+			session.getTransaction().commit();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			return null;
+		}
+	}
+
+	public static List<Reservation> getReservationUnchecked(int id) {
+		List<Reservation> list = getReservation(id);
+		List<Reservation> result = new ArrayList<Reservation>();
+		for (Reservation r : list) {
+			if (!r.getIsConfirm()) {
+				result.add(r);
+			}
+		}
+		return result;
+	}
+
+	public static List<Reservation> getReservationChecked(int id) {
+		List<Reservation> list = getReservation(id);
+		List<Reservation> result = new ArrayList<Reservation>();
+		for (Reservation r : list) {
+			if (r.getIsConfirm()) {
+				result.add(r);
+			}
+		}
+		return result;
 	}
 
 }

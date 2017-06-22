@@ -1,6 +1,5 @@
 package test;
 
-import DAO.ClinicDAO;
 import DAO.DoctorDAO;
 import util.HibernateUtils;
 
@@ -9,7 +8,7 @@ public class TestDAO {
 	public static void main(String[] args) {
 		// Clinic c = new Clinic("Dong Nai", "Ccccccc");
 		// ClassDAO.insert(c);
-		System.out.println(DoctorDAO.login("nguyentu", "123"));
+		System.out.println(DoctorDAO.getReservation(1));
 //		 System.out.println(ClinicDAO.getClinic(1).getDoctors());
 		// System.out.println(ClinicDAO.getLastID());
 //		System.out.println(ClinicDAO.getAllClinic() + "\n");

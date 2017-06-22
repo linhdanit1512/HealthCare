@@ -84,4 +84,28 @@ public class ClinicDAO extends ClassDAO {
 		return clinic;
 	}
 
+	public static int getClinicNonDoctor() {
+		List<Clinic> list = getAllClinic();
+		int count = 0;
+		if (list != null)
+			for (Clinic clinic : list) {
+				if (clinic.getDoctors() == null || clinic.getDoctors().size() == 0) {
+					count++;
+				}
+			}
+		return count;
+	}
+
+	public static int getClinicHasDoctor() {
+		List<Clinic> list = getAllClinic();
+		int count = 0;
+		if (list != null)
+			for (Clinic clinic : list) {
+				if (clinic.getDoctors() != null && clinic.getDoctors().size() != 0) {
+					count++;
+				}
+			}
+		return count;
+	}
+
 }

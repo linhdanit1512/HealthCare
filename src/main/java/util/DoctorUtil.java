@@ -11,9 +11,9 @@ public class DoctorUtil {
 
 	public DoctorUtil() {
 		Doctor doctor = new Doctor(1, null, null, "A", "Nguyễn Văn A", "123", "0123456789", "passport1",
-				"Bác sĩ cao cấp", 22, "address A", "Hồ Chí Minh", new Date(), true, null, null, null);
+				"Bác sĩ cao cấp", 22, "Hồ Chí Minh", new Date(), true, null, null, null);
 		Doctor doctor2 = new Doctor(2, null, null, "B", "Nguyễn Văn B", "123", "0123456788", "passport2",
-				"Bác sĩ thực tập", 1, "address B", "Hà Nội", new Date(), true, null, null, null);
+				"Bác sĩ thực tập", 1, "Hà Nội", new Date(), true, null, null, null);
 		registerDoctor(doctor);
 		registerDoctor(doctor2);
 	}
