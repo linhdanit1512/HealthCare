@@ -182,7 +182,7 @@ public class Patient implements java.io.Serializable {
 	public static String toJsonList(List<Patient> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("\"patientList\":[");
+			sb.append("{\"patientList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");

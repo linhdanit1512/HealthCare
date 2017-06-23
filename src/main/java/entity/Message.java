@@ -239,7 +239,7 @@ public class Message implements java.io.Serializable {
 	public static String toJsonList(List<Message> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("\"messageList\":[");
+			sb.append("{\"messageList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
@@ -255,7 +255,7 @@ public class Message implements java.io.Serializable {
 	public static String toJsonList(Set<Message> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("\"messageList\":[");
+			sb.append("{\"messageList\":[");
 			int i = 0;
 			for (Message mess : list) {
 				if (i > 0)
