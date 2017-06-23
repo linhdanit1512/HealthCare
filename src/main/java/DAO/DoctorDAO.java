@@ -1,6 +1,7 @@
 package DAO;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,48 @@ import util.HibernateUtils;
 
 public class DoctorDAO extends ClassDAO {
 
+	Comparator<Schedules> comp = new Comparator<Schedules>() {
+
+		public int compare(Schedules o1, Schedules o2) {
+			String thu = o1.getDates();
+			String thu2 = o2.getDates();
+			int s1 = 0, s2 = 0;
+			if ("sunday".equals(thu.toLowerCase()))
+				s1 = 1;
+			else if ("monday".equals(thu))
+				s1 = 2;
+			else if ("tuesday".equals(thu))
+				s1 = 3;
+			else if ("wednesday".equals(thu))
+				s1 = 4;
+			else if ("thurday".equals(thu))
+				s1 = 5;
+			else if ("friday".equals(thu))
+				s1 = 6;
+			else if ("saturday".equals(thu))
+				s1 = 7;
+			
+			if ("sunday".equals(thu2.toLowerCase()))
+				s2 = 1;
+			else if ("monday".equals(thu2))
+				s2 = 2;
+			else if ("tuesday".equals(thu2))
+				s2 = 3;
+			else if ("wednesday".equals(thu2))
+				s2 = 4;
+			else if ("thu2rday".equals(thu2))
+				s2 = 5;
+			else if ("friday".equals(thu2))
+				s2 = 6;
+			else if ("saturday".equals(thu2))
+				s2 = 7;
+			
+			
+
+			return 0;
+		}
+	};
+
 	/**
 	 * 
 	 */
@@ -25,7 +68,8 @@ public class DoctorDAO extends ClassDAO {
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
-			String hql = "from " + Doctor.class.getName() + " e where e.username =:name and e.passwords =:pass and e.isCheck = true";
+			String hql = "from " + Doctor.class.getName()
+					+ " e where e.username =:name and e.passwords =:pass and e.isCheck = true";
 			Query query = session.createQuery(hql);
 			query.setParameter("name", username);
 			query.setParameter("pass", pass);
@@ -81,8 +125,8 @@ public class DoctorDAO extends ClassDAO {
 		}
 		return false;
 	}
-	
-	public static boolean register(String jsonDoctor){
+
+	public static boolean register(String jsonDoctor) {
 		if (jsonDoctor != null) {
 			Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 			try {

@@ -11,9 +11,9 @@ public class TestDAO {
 		// ClassDAO.insert(c);
 //		System.out.println(DoctorDAO.getReservation(1));
 //		 System.out.println(ClinicDAO.getClinic(1).getDoctors());
-		// System.out.println(ClinicDAO.getLastID());
+//		 System.out.println(ClinicDAO.getLastID());
 //		System.out.println(ClinicDAO.getAllClinic() + "\n");
-//		System.out.println(DoctorDAO.getAllDoctor() + "\n");
+		System.out.println(DoctorDAO.getAllDoctor() + "\n");
 //		System.out.println(MessageDAO.getAllMessage() + "\n");
 //		System.out.println(PatientDAO.getAllPatient() + "\n");
 //		System.out.println(Schedules.toJsonList(ScheduleDAO.getAllSchedules()) + "\n");
@@ -24,7 +24,7 @@ public class TestDAO {
 //		System.out.println(HibernateUtils.getSessionFactory());
 //		System.out.println(DoctorDAO.login("nguyentu", "123"));
 //		System.out.println(ClinicDAO.getClinicHasDoctor());
-		System.out.println(Reservation.toJsonList(DoctorDAO.getReservationChecked(1)));
-		 HibernateUtils.shutdown();
+//		System.out.println(Reservation.toJsonList(DoctorDAO.getReservationChecked(1)));
+//		 HibernateUtils.shutdown();
 	}
 }
