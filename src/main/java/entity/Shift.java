@@ -14,7 +14,7 @@ public class Shift {
 	 * Constructor
 	 * 
 	 * @param date
-	 *            Thứ 2, thứ 3, ... hoặc chủ nhật và ngày, tháng, năm
+	 *            Thứ 2, thứ 3, ... hoặc chủ nhật
 	 * @param shiftNumber
 	 *            ca trực thứ mấy
 	 * @param typeWork
