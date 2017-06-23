@@ -209,7 +209,7 @@ public class Users implements java.io.Serializable {
 	
 	public Message addMessage(int idDoctor, String content) {
 		Doctor doctor = DoctorDAO.getDoctor(idDoctor);
-		Message message = new Message(doctor, this, new Date(), content, false, false, false);
+		Message message = new Message(doctor, this, new Date(), content, false, true, false);
 		this.messages.add(message);
 		return message;
 	}

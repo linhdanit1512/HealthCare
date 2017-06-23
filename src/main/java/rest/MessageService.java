@@ -52,7 +52,7 @@ public class MessageService {
 			return "Sai dinh dang";
 		}
 	}
-
+	
 	@PUT
 	@Path("/doctor/{idDoctor}/{idUser}/{content}")
 	public String sendMessageOfDoctor(@PathParam("idDoctor") String idDoctor, @PathParam("idUser") String idUser,
@@ -66,7 +66,7 @@ public class MessageService {
 	
 	@PUT
 	@Path("/user/{idUser}/{idDoctor}/{content}")
-	public String sendMessageOfUser(@PathParam("idUser") String idUser, @PathParam("idUser") String idDoctor,
+	public String sendMessageOfUser(@PathParam("idUser") String idUser, @PathParam("idDoctor") String idDoctor,
 			@PathParam("content") String content) {
 		int idDoc = Integer.parseInt(idDoctor);
 		int idUs = Integer.parseInt(idUser);

@@ -255,4 +255,23 @@ public class Message implements java.io.Serializable {
 			return null;
 		}
 	}
+	
+	public static String toJsonList(Set<Message> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append("[");
+			int i=0;
+			for (Message mess : list) {
+				if (i > 0)
+					sb.append(",");
+				sb.append(mess.toJson());
+				i++;
+			}
+			sb.append("]");
+			return sb.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

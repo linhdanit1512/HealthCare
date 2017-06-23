@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import DAO.DoctorDAO;
 import entity.Doctor;
+import entity.Message;
 import entity.Schedules;
 import util.DoctorUtil;
 
@@ -104,7 +105,7 @@ public class DoctorService {
 	public String getAllDoctor() {
 		try {
 			List<Doctor> list = DoctorDAO.getAllDoctor();
-			
+
 			return Doctor.toJsonList(list);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,6 +150,26 @@ public class DoctorService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	@GET
+	@Path("/message/{idDoctor}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getMessages(@PathParam("idDoctor") String id) {
+		if (id == null)
+			return null;
+		try {
+			int i = Integer.parseInt(id);
+			Doctor doctor = DoctorDAO.getDoctor(i);
+			if (doctor != null) {
+				Set<Message> set = doctor.getMessages();
+				if (set != null)
+					return Message.toJsonList(set);
+			}
+			return "{\"message\":null}";
+		} catch (Exception e) {
+			return "{\"message\":null}";
 		}
 	}
 
