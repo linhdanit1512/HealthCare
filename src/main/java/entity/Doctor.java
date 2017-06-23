@@ -39,6 +39,7 @@ public class Doctor implements java.io.Serializable {
 	@Id
 	@GeneratedValue
 	private int idDoctor;
+	@JsonIgnore
 	@ManyToOne
 	private Clinic clinic;
 	@ManyToOne

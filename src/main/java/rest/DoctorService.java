@@ -2,7 +2,6 @@ package rest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -142,15 +141,11 @@ public class DoctorService {
 			return "{\"scheduleList\": null}";
 		try {
 			int i = Integer.parseInt(id);
-			Set<Schedules> set = DoctorDAO.getSchedule(i);
-			List<Schedules> list = new ArrayList<Schedules>();
+			List<Schedules> set = DoctorDAO.getSchedule(i);
 			if (set != null)
-				for (Schedules sche : set) {
-					list.add(sche);
-				}
-			return Schedules.toJsonList(list);
+				return Schedules.toJsonList(set);
+			return "{\"scheduleList\":null}";
 		} catch (Exception e) {
-			e.printStackTrace();
 			return "{\"scheduleList\": null}";
 		}
 	}

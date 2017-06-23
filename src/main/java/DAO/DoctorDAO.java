@@ -2,7 +2,6 @@ package DAO;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +16,7 @@ import util.HibernateUtils;
 
 public class DoctorDAO extends ClassDAO {
 
-	Comparator<Schedules> comp = new Comparator<Schedules>() {
+	static Comparator<Schedules> comp = new Comparator<Schedules>() {
 
 		public int compare(Schedules o1, Schedules o2) {
 			String thu = o1.getDates();
@@ -31,7 +30,7 @@ public class DoctorDAO extends ClassDAO {
 				s1 = 3;
 			else if ("wednesday".equals(thu.toLowerCase()))
 				s1 = 4;
-			else if ("thurday".equals(thu.toLowerCase()))
+			else if ("thursday".equals(thu.toLowerCase()))
 				s1 = 5;
 			else if ("friday".equals(thu.toLowerCase()))
 				s1 = 6;
@@ -46,7 +45,7 @@ public class DoctorDAO extends ClassDAO {
 				s2 = 3;
 			else if ("wednesday".equals(thu2.toLowerCase()))
 				s2 = 4;
-			else if ("thurday".equals(thu2.toLowerCase()))
+			else if ("thursday".equals(thu2.toLowerCase()))
 				s2 = 5;
 			else if ("friday".equals(thu2.toLowerCase()))
 				s2 = 6;
@@ -54,18 +53,17 @@ public class DoctorDAO extends ClassDAO {
 				s2 = 7;
 
 			if (s1 < s2) {
-				return 1;
+				return -2;
 			} else if (s1 > s2) {
-				return -1;
+				return 2;
 			} else if (s1 == s2) {
 				if (o1.getStartTime() > o2.getStartTime())
-					return -1;
-				else if (o1.getStartTime() < o2.getStartTime())
 					return 1;
+				else if (o1.getStartTime() < o2.getStartTime())
+					return -1;
 				else
 					return 0;
 			}
-
 			return 0;
 		}
 	};
@@ -85,8 +83,7 @@ public class DoctorDAO extends ClassDAO {
 			Query<Doctor> query = session.createQuery(hql);
 			query.setParameter("name", username);
 			query.setParameter("pass", pass);
-			if (query.list().size() > 0)
-				doctor = (Doctor) query.list().get(0);
+			doctor = query.getSingleResult();
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,19 +198,24 @@ public class DoctorDAO extends ClassDAO {
 		return doctor;
 	}
 
-	public static Set<Schedules> getSchedule(int idDoctor) {
+	public static List<Schedules> getSchedule(int idDoctor) {
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Doctor.class.getName() + " e where e.idDoctor =:doctor";
 			Query<Doctor> query = session.createQuery(hql);
 			query.setParameter("doctor", idDoctor);
-			Set<Schedules> list = new HashSet<Schedules>();
+			List<Schedules> list = new ArrayList<Schedules>();
 			if (query.list() != null && query.list().size() > 0) {
 				Doctor doctor = query.uniqueResult();
-				if (doctor != null)
-					list = doctor.getScheduleses();
+				if (doctor != null) {
+					Set<Schedules> set = doctor.getScheduleses();
+					for(Schedules s : set){
+						list.add(s);
+					}
+				}
 			}
+			list.sort(comp);
 			session.getTransaction().commit();
 			return list;
 		} catch (Exception e) {
