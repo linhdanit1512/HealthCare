@@ -79,8 +79,7 @@ public class Questionmessage implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\""+Questionmessage.class.getName()+"\": null}";
 		}
 	}
 
@@ -90,7 +89,6 @@ public class Questionmessage implements java.io.Serializable {
 			Questionmessage question = mapper.readValue(json, Questionmessage.class);
 			return question;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -102,7 +100,6 @@ public class Questionmessage implements java.io.Serializable {
 					mapper.getTypeFactory().constructCollectionType(List.class, Questionmessage.class));
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -110,17 +107,16 @@ public class Questionmessage implements java.io.Serializable {
 	public static String toJsonList(List<Questionmessage> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("{\"questionMessageList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"questionMessageList\": null}";
 		}
 	}
 }

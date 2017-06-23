@@ -41,7 +41,7 @@ public class Specialty implements java.io.Serializable {
 	private Set<Doctor> doctors = new HashSet<Doctor>(0);
 
 	public Specialty() {
-		
+
 	}
 
 	public Specialty(int idSpecialty) {
@@ -121,7 +121,7 @@ public class Specialty implements java.io.Serializable {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "{\"" + Specialty.class.getName() + "\": null}";
 		}
 	}
 
@@ -151,17 +151,16 @@ public class Specialty implements java.io.Serializable {
 	public static String toJsonList(List<Specialty> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("{\"specialtyList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"specialtyList\":null}";
 		}
 	}
 }

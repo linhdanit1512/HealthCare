@@ -1,8 +1,6 @@
 package test;
 
 import DAO.DoctorDAO;
-import entity.Reservation;
-import util.HibernateUtils;
 
 public class TestDAO {
 

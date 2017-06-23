@@ -129,8 +129,7 @@ public class Reservation implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\""+Reservation.class.getName()+"\": null}";
 		}
 	}
 
@@ -140,7 +139,6 @@ public class Reservation implements java.io.Serializable {
 			Reservation r = mapper.readValue(json, Reservation.class);
 			return r;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -152,7 +150,6 @@ public class Reservation implements java.io.Serializable {
 					mapper.getTypeFactory().constructCollectionType(List.class, Reservation.class));
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -160,17 +157,16 @@ public class Reservation implements java.io.Serializable {
 	public static String toJsonList(List<Reservation> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("{\"reservationList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"reservationList\":null}";
 		}
 	}
 }

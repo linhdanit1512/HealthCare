@@ -154,8 +154,7 @@ public class Patient implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"" + Patient.class.getName() + "\": null}";
 		}
 	}
 
@@ -165,7 +164,6 @@ public class Patient implements java.io.Serializable {
 			Patient patient = mapper.readValue(json, Patient.class);
 			return patient;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -177,7 +175,6 @@ public class Patient implements java.io.Serializable {
 					mapper.getTypeFactory().constructCollectionType(List.class, Patient.class));
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -185,17 +182,16 @@ public class Patient implements java.io.Serializable {
 	public static String toJsonList(List<Patient> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("\"patientList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"patientList\": null}";
 		}
 	}
 }

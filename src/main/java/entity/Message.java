@@ -211,8 +211,7 @@ public class Message implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"" + Message.class.getName() + "\": null}";
 		}
 	}
 
@@ -222,7 +221,6 @@ public class Message implements java.io.Serializable {
 			Message message = mapper.readValue(json, Message.class);
 			return message;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -234,7 +232,6 @@ public class Message implements java.io.Serializable {
 					mapper.getTypeFactory().constructCollectionType(List.class, Message.class));
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -242,36 +239,34 @@ public class Message implements java.io.Serializable {
 	public static String toJsonList(List<Message> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("\"messageList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"messageList\":null}";
 		}
 	}
-	
+
 	public static String toJsonList(Set<Message> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
-			int i=0;
+			sb.append("\"messageList\":[");
+			int i = 0;
 			for (Message mess : list) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(mess.toJson());
 				i++;
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"messageList\":null}";
 		}
 	}
 }

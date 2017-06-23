@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -40,7 +41,7 @@ public class Schedules implements java.io.Serializable {
 	private Integer stopTime;
 	private String workspace;
 	@ManyToMany()
-	// @JsonIgnore
+	@JsonIgnore
 	private Set<Doctor> doctors = new HashSet<Doctor>(0);
 
 	public Schedules() {
@@ -164,8 +165,7 @@ public class Schedules implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"" + Schedules.class.getName() + "\": null}";
 		}
 	}
 
@@ -175,7 +175,6 @@ public class Schedules implements java.io.Serializable {
 			Schedules sche = mapper.readValue(json, Schedules.class);
 			return sche;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -187,7 +186,6 @@ public class Schedules implements java.io.Serializable {
 					mapper.getTypeFactory().constructCollectionType(List.class, Schedules.class));
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -195,24 +193,23 @@ public class Schedules implements java.io.Serializable {
 	public static String toJsonList(List<Schedules> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("{\"scheduleList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"scheduleList\": null}";
 		}
 	}
 
 	public static String toJsonList(Set<Schedules> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("{\"scheduleList\":[");
 			int count = 0;
 			for (Schedules sc : list) {
 				if (count > 0)
@@ -220,11 +217,10 @@ public class Schedules implements java.io.Serializable {
 				sb.append(sc.toJson());
 				count++;
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"scheduleList\": null}";
 		}
 	}
 }

@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import entity.Doctor;
+import entity.Message;
 import entity.Reservation;
 import entity.Schedules;
 import util.HibernateUtils;
@@ -51,6 +52,19 @@ public class DoctorDAO extends ClassDAO {
 				s2 = 6;
 			else if ("saturday".equals(thu2.toLowerCase()))
 				s2 = 7;
+
+			if (s1 < s2) {
+				return 1;
+			} else if (s1 > s2) {
+				return -1;
+			} else if (s1 == s2) {
+				if (o1.getStartTime() > o2.getStartTime())
+					return -1;
+				else if (o1.getStartTime() < o2.getStartTime())
+					return 1;
+				else
+					return 0;
+			}
 
 			return 0;
 		}
@@ -154,17 +168,13 @@ public class DoctorDAO extends ClassDAO {
 		return false;
 	}
 
-	public static void main(String[] args) {
-		System.out.println(getDoctor(1).toString());
-	}
-
 	public static List<Doctor> getAllDoctor() {
 		List<Doctor> doctors = new ArrayList<Doctor>();
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Doctor.class.getName() + " e  order by e.idDoctor asc";
-			Query query = session.createQuery(hql);
+			Query<Doctor> query = session.createQuery(hql);
 			doctors = query.list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
@@ -250,6 +260,18 @@ public class DoctorDAO extends ClassDAO {
 			}
 		}
 		return result;
+	}
+
+	public static List<Message> getMessages(int id) {
+		Doctor doctor = getDoctor(id);
+		if (doctor != null) {
+			List<Message> result = new ArrayList<Message>();
+			for (Message r : doctor.getMessages()) {
+				result.add(r);
+			}
+			return result;
+		}
+		return null;
 	}
 
 }

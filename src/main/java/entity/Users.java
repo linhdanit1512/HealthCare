@@ -162,8 +162,7 @@ public class Users implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\""+Users.class.getName()+"\": null}";
 		}
 	}
 
@@ -173,7 +172,6 @@ public class Users implements java.io.Serializable {
 			Users doctor = mapper.readValue(json, Users.class);
 			return doctor;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -185,7 +183,6 @@ public class Users implements java.io.Serializable {
 					mapper.getTypeFactory().constructCollectionType(List.class, Users.class));
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -193,17 +190,16 @@ public class Users implements java.io.Serializable {
 	public static String toJsonList(List<Users> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("{\"userList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"userList\":null}";
 		}
 	}
 	

@@ -73,8 +73,8 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(Clinic clinic, Specialty specialty, String username, String nameDoctor, String passwords,
-			String phone, String email, String passport, String degree, Integer experience, String address, Date timeCreate,
-			Boolean isCheck) {
+			String phone, String email, String passport, String degree, Integer experience, String address,
+			Date timeCreate, Boolean isCheck) {
 		super();
 		this.clinic = clinic;
 		this.specialty = specialty;
@@ -92,8 +92,8 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
-			String passwords, String phone, String email, String passport, String degree, Integer experience, String address,
-			Date timeCreate, Boolean isCheck) {
+			String passwords, String phone, String email, String passport, String degree, Integer experience,
+			String address, Date timeCreate, Boolean isCheck) {
 		super();
 		this.idDoctor = idDoctor;
 		this.clinic = clinic;
@@ -112,8 +112,8 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
-			String passwords, String phone, String email, String passport, String degree, Integer experience, String address,
-			Date timeCreate, Boolean isCheck, Set<Schedules> scheduleses, Set<Reservation> reservations,
+			String passwords, String phone, String email, String passport, String degree, Integer experience,
+			String address, Date timeCreate, Boolean isCheck, Set<Schedules> scheduleses, Set<Reservation> reservations,
 			Set<Message> messages) {
 		super();
 		this.idDoctor = idDoctor;
@@ -259,7 +259,7 @@ public class Doctor implements java.io.Serializable {
 	public String getEmail() {
 		return email;
 	}
-	
+
 	@XmlElement
 	public void setEmail(String email) {
 		this.email = email;
@@ -328,8 +328,7 @@ public class Doctor implements java.io.Serializable {
 			ObjectMapper mapper = new ObjectMapper();
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"" + Doctor.class.getName() + "\":null}";
 		}
 	}
 
@@ -339,7 +338,6 @@ public class Doctor implements java.io.Serializable {
 			Doctor doctor = mapper.readValue(json, Doctor.class);
 			return doctor;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -351,7 +349,6 @@ public class Doctor implements java.io.Serializable {
 					mapper.getTypeFactory().constructCollectionType(List.class, Doctor.class));
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -359,17 +356,16 @@ public class Doctor implements java.io.Serializable {
 	public static String toJsonList(List<Doctor> list) {
 		try {
 			StringBuilder sb = new StringBuilder();
-			sb.append("[");
+			sb.append("{\"doctorList\":[");
 			for (int i = 0; i < list.size(); i++) {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
 			}
-			sb.append("]");
+			sb.append("]}");
 			return sb.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"doctorList\":null}";
 		}
 	}
 
@@ -382,6 +378,7 @@ public class Doctor implements java.io.Serializable {
 			scheduleses.add(schedules);
 		}
 	}
+
 	public Message addMessage(int idUser, String content) {
 		Users user = UserDAO.getUsers(idUser);
 		Message message = new Message(this, user, new Date(), content, false, false, false);

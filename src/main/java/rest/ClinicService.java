@@ -27,10 +27,10 @@ public class ClinicService {
 			if (clinic != null)
 				return clinic.toJson();
 			else
-				return null;
+				return "{\"clinic\":null";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "{\"clinic\":null";
 		}
 	}
 
@@ -41,12 +41,17 @@ public class ClinicService {
 	public String searchByName(@PathParam("name") String name) {
 		try {
 			if (name != null && !"".equals(name)) {
-				return Clinic.toJsonList(ClinicDAO.getClinicByName(name));
+				List<Clinic> clinic = ClinicDAO.getClinicByName(name);
+				if (clinic != null)
+					return Clinic.toJsonList(clinic);
+				else {
+					return "{\"clinicList\":null";
+				}
 			} else
-				return null;
+				return "{\"clinicList\":null";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "{\"clinicList\":null";
 		}
 	}
 
@@ -61,12 +66,12 @@ public class ClinicService {
 				if (list != null)
 					return Clinic.toJsonList(list);
 				else
-					return null;
+					return "{\"clinicList\":null";
 			} else
-				return null;
+				return "{\"clinicList\":null";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "{\"clinicList\":null";
 		}
 	}
 

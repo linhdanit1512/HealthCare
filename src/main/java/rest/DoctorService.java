@@ -105,11 +105,13 @@ public class DoctorService {
 	public String getAllDoctor() {
 		try {
 			List<Doctor> list = DoctorDAO.getAllDoctor();
-
-			return Doctor.toJsonList(list);
+			if (list != null) {
+				return Doctor.toJsonList(list);
+			} else
+				return "{\"doctorList\": null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "{\"doctorList\": null}";
 		}
 	}
 
@@ -119,7 +121,7 @@ public class DoctorService {
 	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String getDoctor(@PathParam("id") String id) {
 		if (id == null)
-			return "Khong co";
+			return "{\"doctor\":null}";
 		try {
 			System.out.println(id);
 			int i = Integer.parseInt(id);
@@ -127,7 +129,7 @@ public class DoctorService {
 			return doctor.toJson();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Sai dinh dang";
+			return "{\"doctor\":null}";
 		}
 	}
 
@@ -137,7 +139,7 @@ public class DoctorService {
 	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String getSchedule(@PathParam("id") String id) {
 		if (id == null)
-			return null;
+			return "{\"scheduleList\": null}";
 		try {
 			int i = Integer.parseInt(id);
 			Set<Schedules> set = DoctorDAO.getSchedule(i);
@@ -149,7 +151,7 @@ public class DoctorService {
 			return Schedules.toJsonList(list);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "{\"scheduleList\": null}";
 		}
 	}
 
@@ -161,13 +163,11 @@ public class DoctorService {
 			return null;
 		try {
 			int i = Integer.parseInt(id);
-			Doctor doctor = DoctorDAO.getDoctor(i);
-			if (doctor != null) {
-				Set<Message> set = doctor.getMessages();
-				if (set != null)
-					return Message.toJsonList(set);
+			List<Message> list = DoctorDAO.getMessages(i);
+			if (list != null) {
+				return Message.toJsonList(list);
 			}
-			return "{\"message\":null}";
+			return "{\"messageList\":null}";
 		} catch (Exception e) {
 			return "{\"message\":null}";
 		}

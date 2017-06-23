@@ -111,8 +111,7 @@ public class Clinic implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+			return "{\"" + Clinic.class.getName() + "\":null}";
 		}
 	}
 
@@ -122,7 +121,6 @@ public class Clinic implements java.io.Serializable {
 			Clinic clinic = mapper.readValue(json, Clinic.class);
 			return clinic;
 		} catch (Exception e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -134,7 +132,6 @@ public class Clinic implements java.io.Serializable {
 					mapper.getTypeFactory().constructCollectionType(List.class, Clinic.class));
 			return list;
 		} catch (IOException e) {
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -143,19 +140,18 @@ public class Clinic implements java.io.Serializable {
 		if (list != null)
 			try {
 				StringBuilder sb = new StringBuilder();
-				sb.append("[");
+				sb.append("{\"clinicList\":[");
 				for (int i = 0; i < list.size(); i++) {
 					if (i > 0)
 						sb.append(",");
 					sb.append(list.get(i).toJson());
 				}
-				sb.append("]");
+				sb.append("]}");
 				return sb.toString();
 			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+				return "{\"clinicList\": null}";
 			}
 		else
-			return null;
+			return "{\"clinicList\": null}";
 	}
 }
