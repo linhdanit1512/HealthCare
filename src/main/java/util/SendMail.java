@@ -13,8 +13,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class SendMail {
-	public static String mailServer = "nguyentued@gmail.com";
-	public static String passServer = "nguyentuesdd";
+	public static String mailServer = "itnonglam84@gmail.com";
+	public static String passServer = "itnonglam";
 
 	public static void sendMail(String mailFrom) {
 		Properties pro = System.getProperties();
@@ -35,7 +35,7 @@ public class SendMail {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailFrom));
 			message.setSubject(MailUtil.getSubject());
 			String content  = MailUtil.getTemplateMailConfirmDoctor();
-			message.setContent(content, "text/html");
+			message.setContent(content, "text/html; charset=UTF-8");
 			
 			Transport.send(message);
 		} catch (AddressException e) {
@@ -47,7 +47,7 @@ public class SendMail {
 	}
 
 	public static void main(String[] args) {
-		String mail = "14130185@st.hcmuaf.edu.vn";
+		String mail = "nguyentued@gmail.com";
 		try {
 			sendMail(mail);
 		} catch (Exception e) {
