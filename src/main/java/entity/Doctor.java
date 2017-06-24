@@ -92,6 +92,23 @@ public class Doctor implements java.io.Serializable {
 		this.isCheck = isCheck;
 	}
 
+	public Doctor(Specialty specialty, String username, String nameDoctor, String passwords, String email, String phone,
+			String passport, String degree, Integer experience, String address, Date timeCreate, Boolean isCheck) {
+		super();
+		this.specialty = specialty;
+		this.username = username;
+		this.nameDoctor = nameDoctor;
+		this.passwords = passwords;
+		this.email = email;
+		this.phone = phone;
+		this.passport = passport;
+		this.degree = degree;
+		this.experience = experience;
+		this.address = address;
+		this.timeCreate = timeCreate;
+		this.isCheck = isCheck;
+	}
+
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
 			String passwords, String phone, String email, String passport, String degree, Integer experience,
 			String address, Date timeCreate, Boolean isCheck) {

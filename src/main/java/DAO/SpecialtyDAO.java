@@ -22,7 +22,7 @@ public class SpecialtyDAO extends ClassDAO {
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Specialty.class.getName() + " e  order by e.idSpecialty asc";
-			Query query = session.createQuery(hql);
+			Query<Specialty> query = session.createQuery(hql);
 			specialtys = query.list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
@@ -32,16 +32,16 @@ public class SpecialtyDAO extends ClassDAO {
 		return specialtys;
 	}
 
-	public static Specialty search(String nameSpacialty) {
+	public static Specialty getSpecialtyByName(String nameSpacialty) {
 		Specialty specialty = null;
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Specialty.class.getName() + " e where e.nameSpecialty =:specialty";
-			Query query = session.createQuery(hql);
+			Query<Specialty> query = session.createQuery(hql);
 			query.setParameter("specialty", nameSpacialty);
 			if (query.list().size() > 0)
-				specialty = (Specialty) query.list().get(0);
+				specialty = query.list().get(0);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,10 +56,10 @@ public class SpecialtyDAO extends ClassDAO {
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Specialty.class.getName() + " e where e.idSpecialty =:specialty";
-			Query query = session.createQuery(hql);
+			Query<Specialty> query = session.createQuery(hql);
 			query.setParameter("specialty", id);
 			if (query.list().size() > 0)
-				specialty = (Specialty) query.list().get(0);
+				specialty = query.list().get(0);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -40,25 +40,22 @@ public class Statistic {
 		}
 	}
 
-	@Path("/reservationunchecked/{id}")
+	@Path("/reservationunchecked/{idDoctor}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String getReservationUnchecked(@PathParam("id") String idDoctor) {
+	public String getReservationUnchecked(@PathParam("idDoctor") int idDoctor) {
 		try {
-			if (idDoctor != null && idDoctor.length() > 0) {
-				int id = Integer.parseInt(idDoctor);
-				List<Reservation> list = DoctorDAO.getReservationUnchecked(id);
-				if (list != null) {
-					return Reservation.toJsonList(list);
-				}
+			List<Reservation> list = DoctorDAO.getReservationUnchecked(idDoctor);
+			if (list != null) {
+				return Reservation.toJsonList(list);
 			}
-			return "Khong co";
+			return "{\"reservationList\":null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Loi dinh dang";
+			return "{\"reservationList\":null}";
 		}
 	}
-	
+
 	@Path("/reservationchecked/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -71,10 +68,10 @@ public class Statistic {
 					return Reservation.toJsonList(list);
 				}
 			}
-			return "Khong co";
+			return"{\"reservationList\":null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "Loi dinh dang";
+			return "{\"reservationList\":null}";
 		}
 	}
 }

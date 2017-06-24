@@ -20,10 +20,9 @@ public class ClinicService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public String getClinic(@PathParam("id") String id) {
+	public String getClinic(@PathParam("id") int id) {
 		try {
-			int i = Integer.parseInt(id);
-			Clinic clinic = ClinicDAO.getClinic(i);
+			Clinic clinic = ClinicDAO.getClinic(id);
 			if (clinic != null)
 				return clinic.toJson();
 			else
@@ -79,10 +78,9 @@ public class ClinicService {
 	@DELETE
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public boolean delete(@PathParam("id") String id) {
+	public boolean delete(@PathParam("id") int id) {
 		try {
-			int i = Integer.parseInt(id);
-			Clinic clinic = ClinicDAO.getClinic(i);
+			Clinic clinic = ClinicDAO.getClinic(id);
 			return ClinicDAO.delete(clinic);
 		} catch (Exception e) {
 			return false;

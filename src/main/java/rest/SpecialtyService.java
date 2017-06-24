@@ -19,12 +19,15 @@ public class SpecialtyService {
 	@Path("/get/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String getSpecialty(@PathParam("id") String id) {
+	public String getSpecialty(@PathParam("id") int id) {
 		try {
-			int i = Integer.parseInt(id);
-			return SpecialtyDAO.getSpecialty(i).toJson();
+			Specialty sp = SpecialtyDAO.getSpecialty(id);
+			if (sp != null)
+				return sp.toJson();
+			else
+				return "{\"" + Specialty.class.getName() + "\":null}";
 		} catch (Exception e) {
-			return e.getMessage();
+			return "{\""+Specialty.class.getName()+"\":null}";
 		}
 	}
 
@@ -35,12 +38,12 @@ public class SpecialtyService {
 	public String searchByName(@PathParam("name") String name) {
 		try {
 			if (name != null && !"".equals(name)) {
-				return SpecialtyDAO.search(name).toJson();
+				return SpecialtyDAO.getSpecialtyByName(name).toJson();
 			} else
-				return null;
+				return "{\""+Specialty.class.getName()+"\":null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "{\""+Specialty.class.getName()+"\":null}";
 		}
 	}
 

@@ -74,14 +74,34 @@ public class ClinicDAO extends ClassDAO {
 			session.getTransaction().begin();
 			String hql = "from " + Clinic.class.getName() + " e where e.address like '%" + address + "%'";
 			Query<Clinic> query = session.createQuery(hql);
-			if (query.list().size() > 0)
-				clinic = query.list();
+			clinic = query.list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}
 		return clinic;
+	}
+
+	public static Clinic getClinicNameAndAddress(String name, String address) {
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Clinic.class.getName() + " e where e.address=:address and e.nameClinic=:name";
+			Query<Clinic> query = session.createQuery(hql);
+			query.setParameter("address", address);
+			query.setParameter("name", name);
+			if (query.list() != null && query.list().size() > 0) {
+				Clinic clinic = query.list().get(0);
+				session.getTransaction().commit();
+				return clinic;
+			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+			return null;
+		}
 	}
 
 	public static int getClinicNonDoctor() {

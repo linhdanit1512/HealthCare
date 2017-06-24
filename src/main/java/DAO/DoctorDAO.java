@@ -198,6 +198,40 @@ public class DoctorDAO extends ClassDAO {
 		return doctor;
 	}
 
+	public static Doctor getDoctorEmail(String email) {
+		Doctor doctor = null;
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Doctor.class.getName() + " e where e.email =:email";
+			Query<Doctor> query = session.createQuery(hql);
+			query.setParameter("email", email);
+			doctor = query.getSingleResult();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return doctor;
+	}
+
+	public static Doctor getDoctorPassport(String passport) {
+		Doctor doctor = null;
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Doctor.class.getName() + " e where e.passport =:passport";
+			Query<Doctor> query = session.createQuery(hql);
+			query.setParameter("passport", passport);
+			doctor = query.getSingleResult();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return doctor;
+	}
+
 	public static List<Schedules> getSchedule(int idDoctor) {
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
@@ -210,7 +244,7 @@ public class DoctorDAO extends ClassDAO {
 				Doctor doctor = query.uniqueResult();
 				if (doctor != null) {
 					Set<Schedules> set = doctor.getScheduleses();
-					for(Schedules s : set){
+					for (Schedules s : set) {
 						list.add(s);
 					}
 				}
