@@ -6,6 +6,7 @@
 	<display-name>HealthCareService</display-name>
 	<servlet>
 		<servlet-name>Jersey</servlet-name>
+		<description>JAX-RS Tools Generated - Do not modify</description>
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>

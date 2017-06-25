@@ -43,8 +43,36 @@ public class SendMail {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-
 	}
+	
+	public static void sendMail(String mailFrom, String content) {
+		Properties pro = System.getProperties();
+		pro.put("mail.smtp.host", "smtp.gmail.com");
+		pro.put("mail.smtp.auth", "true");
+		pro.put("mail.smtp.port", "465");
+		pro.put("mail.smtp.socketFactory.class", javax.net.ssl.SSLSocketFactory.class.getName());
+
+		Session session = Session.getDefaultInstance(pro, new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(mailServer, passServer);
+			}
+		});
+
+		try {
+			Message message = new MimeMessage(session);
+			message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailFrom));
+			message.setSubject(MailUtil.getSubject());
+			message.setContent(content, "text/html; charset=UTF-8");
+			
+			Transport.send(message);
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+
 
 	public static void main(String[] args) {
 		String mail = "nguyentued@gmail.com";

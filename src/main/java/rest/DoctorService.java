@@ -27,6 +27,8 @@ import entity.Message;
 import entity.Schedules;
 import entity.Specialty;
 import util.DoctorUtil;
+import util.MailUtil;
+import util.SendMail;
 
 @Path("/doctor")
 public class DoctorService {
@@ -50,7 +52,7 @@ public class DoctorService {
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
 	public boolean register(@FormParam("userName") String userName, @FormParam("password") String password,
-			@FormParam("name") String name, @FormParam("specilaty") String special, @FormParam("degree") String degree,
+			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
 			@FormParam("experience") String experient, @FormParam("email") String email,
 			@FormParam("doctorAddress") String doctorAddress, @FormParam("phone") String phone,
 			@FormParam("passport") String passport, @Context HttpServletResponse servletResponse) {
@@ -74,20 +76,21 @@ public class DoctorService {
 	}
 
 	@GET
-	@Path("/forgetpassword/{email}")
+	@Path("/forgetpassword/{emailname}/{extend}")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public String forgetpass(@PathParam("email") String email) {
+	public String forgetpass(@PathParam("emailname") String email, @PathParam("extend") String extend) {
 		try {
-			Doctor doctor = DoctorDAO.getDoctorEmail(email);
+			Doctor doctor = DoctorDAO.getDoctorEmail(email + "@" + extend);
 			if (doctor != null) {
 				Random r = new Random();
-				long i = r.nextLong() * 5684452;
-				String num = (i + "").substring(0, 6);
-				doctor.setPasswords(num);
+				long i = (r.nextLong() + 1) * 5684452;
+				String pass = (i + "").substring(0, 6);
+				doctor.setPasswords(pass);
 
 				if (DoctorDAO.update(doctor)) {
-					// can them phan gui email o day nua
-					return num;
+					SendMail.sendMail(email + "@" + extend,
+							MailUtil.forgetPasswordTemplete(pass, doctor.getUsername()));
+					return pass;
 				}
 			}
 			return null;
