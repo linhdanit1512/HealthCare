@@ -78,12 +78,12 @@ public class ClinicService {
 	@DELETE
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public boolean delete(@PathParam("id") int id) {
+	public String delete(@PathParam("id") int id) {
 		try {
 			Clinic clinic = ClinicDAO.getClinic(id);
-			return ClinicDAO.delete(clinic);
+			return ClinicDAO.delete(clinic) ? "Xóa phòng khám thành công" : "Xóa phòng khám thất bại";
 		} catch (Exception e) {
-			return false;
+			return "Không thể xóa";
 		}
 	}
 }

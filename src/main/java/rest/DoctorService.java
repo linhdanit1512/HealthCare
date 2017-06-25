@@ -51,7 +51,7 @@ public class DoctorService {
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public boolean register(@FormParam("userName") String userName, @FormParam("password") String password,
+	public String register(@FormParam("userName") String userName, @FormParam("password") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
 			@FormParam("experience") String experient, @FormParam("email") String email,
 			@FormParam("doctorAddress") String doctorAddress, @FormParam("phone") String phone,
@@ -67,11 +67,11 @@ public class DoctorService {
 			Doctor doctor = new Doctor(specialty, userName, name, password, email, phone, passport, degree, experience,
 					doctorAddress, timeCreate, false);
 			if (DoctorDAO.register(doctor)) {
-				return DoctorDAO.insert(doctor);
+				return DoctorDAO.insert(doctor)?"Đăng ký thành công":"Đăng ký thất bại";
 			}
-			return false;
+			return "Không đăng ký được";
 		} catch (Exception e) {
-			return false;
+			return "Lỗi đăng ký";
 		}
 	}
 
@@ -100,19 +100,19 @@ public class DoctorService {
 	@GET
 	@Path("/check/{id}")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public boolean checkedDoctor(@PathParam("id") int id) {
+	public String checkedDoctor(@PathParam("id") int id) {
 		Doctor doctor = DoctorDAO.getDoctor(id);
 		if (doctor != null) {
 			doctor.setIsCheck(true);
-			return true;
+			return "Duyệt thành công";
 		}
-		return false;
+		return "Duyệt thất bại";
 	}
 
 	@PUT
 	@Path("/update/clinic/{idDoctor}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
-	public boolean updateClinic(@PathParam("idDoctor") int id, @FormParam("clinicName") String clinicName,
+	public String updateClinic(@PathParam("idDoctor") int id, @FormParam("clinicName") String clinicName,
 			@FormParam("clinicAddress") String clinicAddress, @Context HttpServletResponse servletResponse) {
 		try {
 			Doctor doctor = DoctorDAO.getDoctor(id);
@@ -123,11 +123,11 @@ public class DoctorService {
 				}
 				doctor.setClinic(clinic);
 				if (DoctorDAO.update(doctor))
-					return true;
+					return "Cập nhật phòng khám thành công";
 			}
-			return false;
+			return "Cập nhật phòng khám thất bại";
 		} catch (Exception e) {
-			return false;
+			return "Đã xảy ra lỗi khi cập nhật phòng khám";
 		}
 	}
 
@@ -135,7 +135,7 @@ public class DoctorService {
 	@Path("/update/info/{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public boolean update(@PathParam("id") int id, @FormParam("password") String password,
+	public String update(@PathParam("id") int id, @FormParam("password") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
 			@FormParam("experience") String experient, @FormParam("email") String email,
 			@FormParam("doctorAddress") String doctorAddress, @FormParam("phone") String phone,
@@ -163,7 +163,7 @@ public class DoctorService {
 					Doctor d = DoctorDAO.getDoctorEmail(email);
 					if (d != null) {
 						if (d.getIdDoctor() != doctor.getIdDoctor())
-							return false;
+							return "Email đã được sử dụng";
 					}
 					doctor.setEmail(email);
 				}
@@ -175,15 +175,15 @@ public class DoctorService {
 					Doctor d = DoctorDAO.getDoctorPassport(passport);
 					if (d != null) {
 						if (d.getIdDoctor() != doctor.getIdDoctor())
-							return false;
+							return "Số CMND/Hộ chiếu đã có người sủ dụng";
 					}
 					doctor.setPassport(passport);
 				}
-				return DoctorDAO.update(doctor);
+				return DoctorDAO.update(doctor)? "Cập nhật thành công": "Cập nhật thất bại";
 			}
-			return false;
+			return "Cập nhật thất bại";
 		} catch (Exception e) {
-			return false;
+			return "Lỗi cập nhật";
 		}
 	}
 
@@ -191,18 +191,17 @@ public class DoctorService {
 	@Path("/delete/{id}")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	@Consumes(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public boolean delete(@PathParam("id") int id) {
+	public String delete(@PathParam("id") int id) {
 		try {
 			Doctor doctor = DoctorDAO.getDoctor(id);
 			if (doctor != null)
 				if (DoctorDAO.delete(doctor))
-					return true;
-
+					return "Xóa bác sĩ thành công";
+			return "Xóa bác sĩ thất bại";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return "Lỗi xóa bác sĩ";
 		}
-		return false;
 	}
 
 	@GET

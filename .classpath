@@ -34,7 +34,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/jarFile/httpclient-4.4.1.jar"/>
-	<classpathentry kind="lib" path="D:/jarFile/httpcore-4.4.1.jar"/>
+	<classpathentry kind="lib" path="D:/jarFile/httpcore-4.4.1.jar" sourcepath="C:/Users/Administrator/.m2/repository/org/apache/httpcomponents/httpcore/4.4.1/httpcore-4.4.1-sources.jar"/>
 	<classpathentry kind="lib" path="D:/jarFile/httpmime-4.4.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

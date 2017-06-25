@@ -17,7 +17,7 @@ public abstract class ClassDAO implements Serializable{
 		Session session = HibernateUtils.getSessionFactory().openSession();
 		try {
 			session.beginTransaction();
-			session.update(object);
+			session.saveOrUpdate(object);
 			session.getTransaction().commit();
 			return true;
 		} catch (Exception e) {

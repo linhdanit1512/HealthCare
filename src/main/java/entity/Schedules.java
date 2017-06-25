@@ -46,6 +46,13 @@ public class Schedules implements java.io.Serializable {
 
 	public Schedules() {
 	}
+	
+	public Schedules(Schedules schedule) {
+		this.dates = schedule.getDates();
+		this.startTime = schedule.getStartTime();
+		this.stopTime = schedule.getStopTime();
+		this.workspace = schedule.getWorkspace();
+	}
 
 	public Schedules(int idSchedule, String dates) {
 		this.idSchedule = idSchedule;
@@ -185,6 +192,22 @@ public class Schedules implements java.io.Serializable {
 			List<Schedules> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Schedules.class));
 			return list;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	public static Set<Schedules> parseJsonListToSet(String json) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			List<Schedules> list = mapper.readValue(json,
+					mapper.getTypeFactory().constructCollectionType(List.class, Schedules.class));
+			Set<Schedules> set = new HashSet<Schedules>();
+			if (list != null)
+				for (Schedules s : list) {
+					set.add(s);
+				}
+			return set;
 		} catch (IOException e) {
 			return null;
 		}

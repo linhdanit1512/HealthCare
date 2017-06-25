@@ -42,6 +42,7 @@ public class TestWebService {
 			list.add(new BasicNameValuePair("phone", "01284871663"));
 			list.add(new BasicNameValuePair("passport", "251036900802"));
 			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
+			
 			System.out.println("List: " + list.toString());
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			s = readResponse(httpResponse);
