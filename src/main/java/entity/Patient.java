@@ -171,6 +171,10 @@ public class Patient implements java.io.Serializable {
 	public static List<Patient> parseJsonList(String json) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
+			json = json.trim();
+			if (json.startsWith("{\"patientList\":")) {
+				json = json.substring(json.indexOf(":") + 1, json.length() - 1);
+			}
 			List<Patient> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Patient.class));
 			return list;

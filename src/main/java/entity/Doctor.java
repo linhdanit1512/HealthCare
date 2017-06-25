@@ -363,6 +363,10 @@ public class Doctor implements java.io.Serializable {
 	public static List<Doctor> parseJsonList(String json) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
+			json = json.trim();
+			if (json.startsWith("{\"doctorList\":")) {
+				json = json.substring(json.indexOf(":") + 1, json.length() - 1);
+			}
 			List<Doctor> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Doctor.class));
 			return list;
@@ -379,6 +383,23 @@ public class Doctor implements java.io.Serializable {
 				if (i > 0)
 					sb.append(",");
 				sb.append(list.get(i).toJson());
+			}
+			sb.append("]}");
+			return sb.toString();
+		} catch (Exception e) {
+			return "{\"doctorList\":null}";
+		}
+	}
+
+	public static String toJsonList(Set<Doctor> list) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			int count = 0;
+			sb.append("{\"doctorList\":[");
+			for (Doctor doctor : list) {
+				if (count > 0)
+					sb.append(",");
+				sb.append(doctor.toJson());
 			}
 			sb.append("]}");
 			return sb.toString();

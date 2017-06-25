@@ -163,7 +163,7 @@ public class Users implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			return "{\""+Users.class.getName()+"\": null}";
+			return "{\"" + Users.class.getName() + "\": null}";
 		}
 	}
 
@@ -180,6 +180,10 @@ public class Users implements java.io.Serializable {
 	public static List<Users> parseJsonList(String json) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
+			json = json.trim();
+			if (json.startsWith("{\"userList\":")) {
+				json = json.substring(json.indexOf(":") + 1, json.length() - 1);
+			}
 			List<Users> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Users.class));
 			return list;
@@ -203,7 +207,7 @@ public class Users implements java.io.Serializable {
 			return "{\"userList\":null}";
 		}
 	}
-	
+
 	public Message addMessage(int idDoctor, String content) {
 		Doctor doctor = DoctorDAO.getDoctor(idDoctor);
 		Message message = new Message(doctor, this, new Date(), content, false, true, false);

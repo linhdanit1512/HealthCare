@@ -139,6 +139,10 @@ public class Specialty implements java.io.Serializable {
 	public static List<Specialty> parseJsonList(String json) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
+			json = json.trim();
+			if (json.startsWith("{\"specialtyList\":")) {
+				json = json.substring(json.indexOf(":") + 1, json.length() - 1);
+			}
 			List<Specialty> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Specialty.class));
 			return list;

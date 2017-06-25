@@ -16,7 +16,7 @@ import util.HibernateUtils;
 
 public class DoctorDAO extends ClassDAO {
 
-	static Comparator<Schedules> comp = new Comparator<Schedules>() {
+	public static final Comparator<Schedules> COMPARATOR = new Comparator<Schedules>() {
 
 		public int compare(Schedules o1, Schedules o2) {
 			String thu = o1.getDates();
@@ -249,7 +249,7 @@ public class DoctorDAO extends ClassDAO {
 					}
 				}
 			}
-			list.sort(comp);
+			list.sort(COMPARATOR);
 			session.getTransaction().commit();
 			return list;
 		} catch (Exception e) {
@@ -323,6 +323,6 @@ public class DoctorDAO extends ClassDAO {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}
-		return result+1;
+		return result + 1;
 	}
 }

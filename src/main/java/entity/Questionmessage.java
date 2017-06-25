@@ -79,7 +79,7 @@ public class Questionmessage implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			return "{\""+Questionmessage.class.getName()+"\": null}";
+			return "{\"" + Questionmessage.class.getName() + "\": null}";
 		}
 	}
 
@@ -96,6 +96,10 @@ public class Questionmessage implements java.io.Serializable {
 	public static List<Questionmessage> parseJsonList(String json) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
+			json = json.trim();
+			if (json.startsWith("{\"questionMessageList\":")) {
+				json = json.substring(json.indexOf(":") + 1, json.length() - 1);
+			}
 			List<Questionmessage> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Questionmessage.class));
 			return list;

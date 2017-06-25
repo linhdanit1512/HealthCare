@@ -228,6 +228,10 @@ public class Message implements java.io.Serializable {
 	public static List<Message> parseJsonList(String json) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
+			json = json.trim();
+			if (json.startsWith("{\"messageList\":")) {
+				json = json.substring(json.indexOf(":")+1, json.length() - 1);
+			}
 			List<Message> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Message.class));
 			return list;

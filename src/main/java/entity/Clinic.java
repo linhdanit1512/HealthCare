@@ -127,6 +127,10 @@ public class Clinic implements java.io.Serializable {
 
 	public static List<Clinic> parseJsonList(String json) {
 		try {
+			json = json.trim();
+			if (json.startsWith("{\"clinicList\":")) {
+				json = json.substring(json.indexOf(":")+1, json.length() - 1);
+			}
 			ObjectMapper mapper = new ObjectMapper();
 			List<Clinic> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Clinic.class));

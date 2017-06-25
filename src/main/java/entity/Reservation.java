@@ -129,7 +129,7 @@ public class Reservation implements java.io.Serializable {
 		try {
 			return mapper.writeValueAsString(this);
 		} catch (Exception e) {
-			return "{\""+Reservation.class.getName()+"\": null}";
+			return "{\"" + Reservation.class.getName() + "\": null}";
 		}
 	}
 
@@ -146,6 +146,10 @@ public class Reservation implements java.io.Serializable {
 	public static List<Reservation> parseJsonList(String json) {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
+			json = json.trim();
+			if (json.startsWith("{\"reservationList\":")) {
+				json = json.substring(json.indexOf(":") + 1, json.length() - 1);
+			}
 			List<Reservation> list = mapper.readValue(json,
 					mapper.getTypeFactory().constructCollectionType(List.class, Reservation.class));
 			return list;
