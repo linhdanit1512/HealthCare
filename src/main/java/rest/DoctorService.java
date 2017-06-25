@@ -49,8 +49,8 @@ public class DoctorService {
 
 	@POST
 	@Path("/register")
-	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public boolean register(@FormParam("userName") String userName, @FormParam("password") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
 			@FormParam("experience") String experient, @FormParam("email") String email,
@@ -61,13 +61,13 @@ public class DoctorService {
 			Specialty specialty = SpecialtyDAO.getSpecialtyByName(special);
 			if (specialty == null) {
 				specialty = new Specialty(special);
+				SpecialtyDAO.insert(specialty);
 			}
 			Date timeCreate = new Date();
 			Doctor doctor = new Doctor(specialty, userName, name, password, email, phone, passport, degree, experience,
 					doctorAddress, timeCreate, false);
 			if (DoctorDAO.register(doctor)) {
-				DoctorDAO.insert(doctor);
-				return true;
+				return DoctorDAO.insert(doctor);
 			}
 			return false;
 		} catch (Exception e) {
@@ -75,21 +75,19 @@ public class DoctorService {
 		}
 	}
 
-	@GET
-	@Path("/forgetpassword/{emailname}/{extend}")
+	@PUT
+	@Path("/forgetpassword")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public String forgetpass(@PathParam("emailname") String email, @PathParam("extend") String extend) {
+	public String forgetpass(@FormParam("email") String email, @Context HttpServletResponse servletResponse) {
 		try {
-			Doctor doctor = DoctorDAO.getDoctorEmail(email + "@" + extend);
+			Doctor doctor = DoctorDAO.getDoctorEmail(email);
 			if (doctor != null) {
 				Random r = new Random();
 				long i = (r.nextLong() + 1) * 5684452;
 				String pass = (i + "").substring(0, 6);
 				doctor.setPasswords(pass);
-
 				if (DoctorDAO.update(doctor)) {
-					SendMail.sendMail(email + "@" + extend,
-							MailUtil.forgetPasswordTemplete(pass, doctor.getUsername()));
+					SendMail.sendMail(email, MailUtil.forgetPasswordTemplete(pass, doctor.getUsername()));
 					return pass;
 				}
 			}
@@ -101,7 +99,7 @@ public class DoctorService {
 
 	@GET
 	@Path("/check/{id}")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public boolean checkedDoctor(@PathParam("id") int id) {
 		Doctor doctor = DoctorDAO.getDoctor(id);
 		if (doctor != null) {
@@ -113,6 +111,7 @@ public class DoctorService {
 
 	@PUT
 	@Path("/update/clinic/{idDoctor}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
 	public boolean updateClinic(@PathParam("idDoctor") int id, @FormParam("clinicName") String clinicName,
 			@FormParam("clinicAddress") String clinicAddress, @Context HttpServletResponse servletResponse) {
 		try {
@@ -134,8 +133,8 @@ public class DoctorService {
 
 	@PUT
 	@Path("/update/info/{id}")
-	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public boolean update(@PathParam("id") int id, @FormParam("password") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
 			@FormParam("experience") String experient, @FormParam("email") String email,

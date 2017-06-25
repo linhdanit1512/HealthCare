@@ -7,7 +7,7 @@
 		dynamic-insert="true">
 		<id name="idSchedule" type="int">
 			<column name="idSchedule" />
-			<generator class="assigned" />
+			<generator class="identity" />
 		</id>
 		<property name="dates" type="string">
 			<column name="dates" length="20" not-null="true" />

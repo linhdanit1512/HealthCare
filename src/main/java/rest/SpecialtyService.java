@@ -2,6 +2,7 @@ package rest;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -27,7 +28,7 @@ public class SpecialtyService {
 			else
 				return "{\"" + Specialty.class.getName() + "\":null}";
 		} catch (Exception e) {
-			return "{\""+Specialty.class.getName()+"\":null}";
+			return "{\"" + Specialty.class.getName() + "\":null}";
 		}
 	}
 
@@ -38,49 +39,51 @@ public class SpecialtyService {
 	public String searchByName(@PathParam("name") String name) {
 		try {
 			if (name != null && !"".equals(name)) {
-				return SpecialtyDAO.getSpecialtyByName(name).toJson();
-			} else
-				return "{\""+Specialty.class.getName()+"\":null}";
+				Specialty s = SpecialtyDAO.getSpecialtyByName(name);
+				if (s != null)
+					return s.toJson();
+			}
+			return "{\"" + Specialty.class.getName() + "\":null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\""+Specialty.class.getName()+"\":null}";
+			return "{\"" + Specialty.class.getName() + "\":null}";
 		}
 	}
 
 	@POST
-	@Path("/add/{specialty}")
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public boolean insert(@PathParam("specialty") String specialty) {
-		if (specialty != null && !"".equals(specialty)) {
-			Specialty special = Specialty.parseJson(specialty);
-			return SpecialtyDAO.insert(special);
+	@Path("/add")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
+	public boolean insert(@FormParam("specialtyName") String specialtyName) {
+		if (specialtyName != null && !"".equals(specialtyName)) {
+			Specialty check = SpecialtyDAO.getSpecialtyByName(specialtyName);
+			if (check == null) {
+				Specialty special = new Specialty(specialtyName);
+				return SpecialtyDAO.insert(special);
+			}
 		}
 		return false;
 	}
 
 	@PUT
-	@Path("/update/{specialty}")
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public boolean update(@PathParam("specialty") String specialty) {
-		if (specialty != null && !"".equals(specialty)) {
-			Specialty special = Specialty.parseJson(specialty);
-			return SpecialtyDAO.update(special);
+	@Path("/update")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
+	public boolean update(@FormParam("idSpecialty") int idSpecialty, @FormParam("specialtyName") String specialtyName) {
+		Specialty s = SpecialtyDAO.getSpecialty(idSpecialty);
+		if (s != null) {
+			s.setNameSpecialty(specialtyName);
+			return SpecialtyDAO.update(s);
+		} else if (s == null && specialtyName != null && !"".equals(specialtyName)) {
+			s = new Specialty(specialtyName);
+			return SpecialtyDAO.insert(s);
 		}
 		return false;
 	}
 
 	@DELETE
-	@Path("/delete/{specialty}")
-	@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public boolean delete(@PathParam("specialty") String specialty) {
-		if (specialty != null && !"".equals(specialty)) {
-			Specialty special = Specialty.parseJson(specialty);
-			return SpecialtyDAO.delete(special);
-		}
-		return false;
+	@Path("/delete/{id}")
+	public boolean delete(@PathParam("id") int id) {
+		Specialty special = SpecialtyDAO.getSpecialty(id);
+		return SpecialtyDAO.delete(special);
 	}
 
 }

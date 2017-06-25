@@ -7,7 +7,7 @@
 		optimistic-lock="version" dynamic-insert="true">
 		<id name="idReservation" type="int">
 			<column name="idReservation" />
-			<generator class="assigned" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="doctor" class="entity.Doctor" fetch="select">
 			<column name="idDoctor" />

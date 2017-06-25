@@ -7,7 +7,7 @@
 		dynamic-insert="true">
 		<id name="idUser" type="int">
 			<column name="idUser" />
-			<generator class="assigned" />
+			<generator class="identity" />
 		</id>
 		<property name="email" type="string">
 			<column name="email" length="128" unique="true" />

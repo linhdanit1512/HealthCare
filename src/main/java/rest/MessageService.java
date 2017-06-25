@@ -2,12 +2,15 @@ package rest;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import DAO.DoctorDAO;
@@ -21,7 +24,7 @@ import entity.Users;
  * @author Nguyen Tu
  */
 
-@Path("/message")
+@Path("/messages")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class MessageService {
 
@@ -51,18 +54,18 @@ public class MessageService {
 	}
 
 	@PUT
-	@Path("/doctor/{idDoctor}/{idUser}/{content}")
-	public String sendMessageOfDoctor(@PathParam("idDoctor") int idDoctor, @PathParam("idUser") int idUser,
-			@PathParam("content") String content) {
+	@Path("/conversation/doctor")
+	public String sendMessageOfDoctor(@FormParam("idDoctor") int idDoctor, @FormParam("idUser") int idUser,
+			@FormParam("content") String content, @Context HttpServletResponse servletResponse) {
 		Doctor doctor = DoctorDAO.getDoctor(idDoctor);
 		Message message = doctor.addMessage(idUser, content);
 		return message.toJson();
 	}
 
 	@PUT
-	@Path("/user/{idUser}/{idDoctor}/{content}")
-	public String sendMessageOfUser(@PathParam("idUser") int idUser, @PathParam("idDoctor") int idDoctor,
-			@PathParam("content") String content) {
+	@Path("/conversation/user")
+	public String sendMessageOfUser(@FormParam("idUser") int idUser, @FormParam("idDoctor") int idDoctor,
+			@FormParam("content") String content, @Context HttpServletResponse servletResponse) {
 		Users user = UserDAO.getUsers(idUser);
 		Message message = user.addMessage(idDoctor, content);
 		return message.toJson();

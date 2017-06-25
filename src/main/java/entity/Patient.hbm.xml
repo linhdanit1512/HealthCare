@@ -7,7 +7,7 @@
 		dynamic-insert="true">
 		<id name="idPatient" type="int">
 			<column name="idPatient" />
-			<generator class="assigned" />
+			<generator class="identity" />
 		</id>
 		<many-to-one name="users" class="entity.Users" fetch="select">
 			<column name="idUser" />

@@ -310,4 +310,19 @@ public class DoctorDAO extends ClassDAO {
 		return null;
 	}
 
+	public static int nextID() {
+		int result = 0;
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "select max(idDoctor) from " + Doctor.class.getName();
+			Query<Integer> query = session.createQuery(hql);
+			result = (int) query.uniqueResult();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return result+1;
+	}
 }

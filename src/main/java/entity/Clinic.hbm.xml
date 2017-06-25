@@ -7,7 +7,7 @@
 		dynamic-insert="true">
 		<id name="idClinic" type="int">
 			<column name="idClinic" />
-			<generator class="assigned" />
+			<generator class="identity" />
 		</id>
 		<property name="address" type="string">
 			<column name="address" length="200" />
