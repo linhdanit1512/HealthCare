@@ -15,6 +15,9 @@ import util.ReservationUtil;
 @Path("/reservation")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class ReservationService {
+	
+	
+	
 	@GET
 	public List<List<Reservation>> getReservations() {
 		return new ArrayList<List<Reservation>>(ReservationUtil.listAllReservation.values());

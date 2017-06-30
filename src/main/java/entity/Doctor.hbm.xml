@@ -45,6 +45,9 @@
         <property name="timeCreate" type="timestamp">
             <column name="timeCreate" length="0" not-null="true" />
         </property>
+        <property name="birthDate" type="timestamp">
+            <column name="birthDate" length="0"/>
+        </property>
         <property name="isCheck" type="java.lang.Boolean">
             <column name="isCheck" />
         </property>

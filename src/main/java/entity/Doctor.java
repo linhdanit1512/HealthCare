@@ -51,6 +51,7 @@ public class Doctor implements java.io.Serializable {
 	private String phone;
 	private String passport;
 	private String degree;
+	private Date birthDate;
 	private Integer experience;
 	private String address;
 	private Date timeCreate;
@@ -74,7 +75,7 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(Clinic clinic, Specialty specialty, String username, String nameDoctor, String passwords,
-			String phone, String email, String passport, String degree, Integer experience, String address,
+			String phone, String email, String passport, String degree, Date birthDate, Integer experience, String address,
 			Date timeCreate, Boolean isCheck) {
 		super();
 		this.clinic = clinic;
@@ -86,6 +87,7 @@ public class Doctor implements java.io.Serializable {
 		this.email = email;
 		this.passport = passport;
 		this.degree = degree;
+		this.birthDate = birthDate;
 		this.experience = experience;
 		this.address = address;
 		this.timeCreate = timeCreate;
@@ -93,7 +95,7 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(Specialty specialty, String username, String nameDoctor, String passwords, String email, String phone,
-			String passport, String degree, Integer experience, String address, Date timeCreate, Boolean isCheck) {
+			String passport, String degree, Date birthDate, Integer experience, String address, Date timeCreate, Boolean isCheck) {
 		super();
 		this.specialty = specialty;
 		this.username = username;
@@ -101,6 +103,7 @@ public class Doctor implements java.io.Serializable {
 		this.passwords = passwords;
 		this.email = email;
 		this.phone = phone;
+		this.birthDate = birthDate;
 		this.passport = passport;
 		this.degree = degree;
 		this.experience = experience;
@@ -110,8 +113,8 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
-			String passwords, String phone, String email, String passport, String degree, Integer experience,
-			String address, Date timeCreate, Boolean isCheck) {
+			String passwords, String phone, String email, String passport, Date birthDate, String degree, Integer experience,
+			String address,  Date timeCreate, Boolean isCheck) {
 		super();
 		this.idDoctor = idDoctor;
 		this.clinic = clinic;
@@ -123,6 +126,7 @@ public class Doctor implements java.io.Serializable {
 		this.email = email;
 		this.passport = passport;
 		this.degree = degree;
+		this.birthDate = birthDate;
 		this.experience = experience;
 		this.address = address;
 		this.timeCreate = timeCreate;
@@ -130,7 +134,7 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
-			String passwords, String phone, String email, String passport, String degree, Integer experience,
+			String passwords, String phone, String email, String passport, String degree, Date birthDate, Integer experience,
 			String address, Date timeCreate, Boolean isCheck, Set<Schedules> scheduleses, Set<Reservation> reservations,
 			Set<Message> messages) {
 		super();
@@ -144,6 +148,7 @@ public class Doctor implements java.io.Serializable {
 		this.email = email;
 		this.passport = passport;
 		this.degree = degree;
+		this.birthDate = birthDate;
 		this.experience = experience;
 		this.address = address;
 		this.timeCreate = timeCreate;
@@ -218,6 +223,16 @@ public class Doctor implements java.io.Serializable {
 
 	public String getPassport() {
 		return this.passport;
+	}
+	
+	
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	@XmlElement

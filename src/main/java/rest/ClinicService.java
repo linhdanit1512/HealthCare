@@ -32,6 +32,22 @@ public class ClinicService {
 			return "{\"clinic\":null";
 		}
 	}
+	
+	@Path("/all")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String all() {
+		try {
+			List<Clinic> clinic = ClinicDAO.getAllClinic();
+			if (clinic != null)
+				return Clinic.toJsonList(clinic);
+			else
+				return "{\"clinicList\":null}";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{\"clinicList\":null}";
+		}
+	}
 
 	@GET
 	@Path("/search/name/{name}")
@@ -44,13 +60,13 @@ public class ClinicService {
 				if (clinic != null)
 					return Clinic.toJsonList(clinic);
 				else {
-					return "{\"clinicList\":null";
+					return "{\"clinicList\":null}";
 				}
 			} else
-				return "{\"clinicList\":null";
+				return "{\"clinicList\":null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"clinicList\":null";
+			return "{\"clinicList\":null}";
 		}
 	}
 
@@ -65,12 +81,12 @@ public class ClinicService {
 				if (list != null)
 					return Clinic.toJsonList(list);
 				else
-					return "{\"clinicList\":null";
+					return "{\"clinicList\":null}";
 			} else
-				return "{\"clinicList\":null";
+				return "{\"clinicList\":null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"clinicList\":null";
+			return "{\"clinicList\":null}";
 		}
 	}
 

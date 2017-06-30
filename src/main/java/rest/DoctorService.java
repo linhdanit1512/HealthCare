@@ -1,6 +1,5 @@
 package rest;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -24,21 +23,15 @@ import DAO.SpecialtyDAO;
 import entity.Clinic;
 import entity.Doctor;
 import entity.Message;
+import entity.Reservation;
 import entity.Schedules;
 import entity.Specialty;
-import util.DoctorUtil;
 import util.MailUtil;
 import util.SendMail;
 
 @Path("/doctor")
 public class DoctorService {
 
-	@GET
-	@Produces(MediaType.APPLICATION_XML + ";charset=utf-8")
-	public List<Doctor> getDoctors() {
-		new DoctorUtil();
-		return new ArrayList<Doctor>(DoctorUtil.listAllDoctors.values());
-	}
 
 	@GET
 	@Path("/login/{user}/{pass}")
@@ -53,7 +46,7 @@ public class DoctorService {
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String register(@FormParam("userName") String userName, @FormParam("password") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
-			@FormParam("experience") String experient, @FormParam("email") String email,
+			@FormParam("experience") String experient, @FormParam("email") String email, @FormParam("birthDate") String dob,
 			@FormParam("doctorAddress") String doctorAddress, @FormParam("phone") String phone,
 			@FormParam("passport") String passport, @Context HttpServletResponse servletResponse) {
 		try {
@@ -64,7 +57,8 @@ public class DoctorService {
 				SpecialtyDAO.insert(specialty);
 			}
 			Date timeCreate = new Date();
-			Doctor doctor = new Doctor(specialty, userName, name, password, email, phone, passport, degree, experience,
+			Date birthDate = new Date(dob);
+			Doctor doctor = new Doctor(specialty, userName, name, password, email, phone, passport, degree, birthDate, experience,
 					doctorAddress, timeCreate, false);
 			if (DoctorDAO.register(doctor)) {
 				return DoctorDAO.insert(doctor)?"Đăng ký thành công":"Đăng ký thất bại";
@@ -137,7 +131,7 @@ public class DoctorService {
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String update(@PathParam("id") int id, @FormParam("password") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
-			@FormParam("experience") String experient, @FormParam("email") String email,
+			@FormParam("experience") String experient, @FormParam("email") String email, @FormParam("birthDate")String birthDate,
 			@FormParam("doctorAddress") String doctorAddress, @FormParam("phone") String phone,
 			@FormParam("passport") String passport, @Context HttpServletResponse servletResponse) {
 		try {
@@ -158,6 +152,10 @@ public class DoctorService {
 				if (check(experient)) {
 					int experience = Integer.parseInt(experient);
 					doctor.setExperience(experience);
+				}
+				if (check(birthDate)) {
+					Date date = new Date(birthDate);
+					doctor.setBirthDate(date);
 				}
 				if (check(email)) {
 					Doctor d = DoctorDAO.getDoctorEmail(email);
@@ -263,6 +261,40 @@ public class DoctorService {
 			return "{\"message\":null}";
 		}
 	}
+	
+	@GET
+	@Path("/reservation/checked/{id}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getReservationChecked(@PathParam("id")int idDoctor){
+		try{
+			List<Reservation> list = DoctorDAO.getReservationChecked(idDoctor);
+			if(list!=null){
+				return Reservation.toJsonList(list);
+			}else{
+				return "{\"reservationList\":null}";
+			}
+		}catch(Exception e){
+			return "{\"reservationList\":null}";
+		}
+	}
+	
+	
+	@GET
+	@Path("/reservation/uncheck/{id}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getReservationUncheck(@PathParam("id")int idDoctor){
+		try{
+			List<Reservation> list = DoctorDAO.getReservationUnchecked(idDoctor);
+			if(list!=null){
+				return Reservation.toJsonList(list);
+			}else{
+				return "{\"reservationList\":null}";
+			}
+		}catch(Exception e){
+			return "{\"reservationList\":null}";
+		}
+	}
+
 
 	private boolean check(String s) {
 		if (s == null)
