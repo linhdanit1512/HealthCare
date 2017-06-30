@@ -14,10 +14,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import DAO.DoctorDAO;
+import entity.Schedules;
+
 public class TestWebService {
 	public static void main(String[] args) {
 		TestWebService test = new TestWebService();
-		test.registerDoctor();
+		test.regisSchedule();
 	}
 
 	/**
@@ -52,7 +55,41 @@ public class TestWebService {
 		}
 
 	}
+	public void forgetPassword() {
+		String s = "";
+		try {
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost("http://healthcare21617.azurewebsites.net/rest/doctor/forgetpassword");
+			List<NameValuePair> list = new ArrayList<NameValuePair>();
+			list.add(new BasicNameValuePair("email", "wintersoul1212@gmail.com"));
+			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
+			System.out.println("List: " + list.toString());
+			HttpResponse httpResponse = httpClient.execute(httpPost);
+			s = readResponse(httpResponse);
+			System.out.println(s);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 
+	}
+	
+	public void regisSchedule(){
+		String s = "";
+		try {
+			HttpClient httpClient = new DefaultHttpClient();
+			HttpPost httpPost = new HttpPost("http://healthcare21617.azurewebsites.net/rest/schedules/registry/list");
+			List<NameValuePair> list = new ArrayList<NameValuePair>();
+			list.add(new BasicNameValuePair("idDoctor", "5"));
+			list.add(new BasicNameValuePair("scheduleList", Schedules.toJsonList(DoctorDAO.getDoctor(2).getScheduleses())));
+			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
+			System.out.println("List: " + list.toString());
+			HttpResponse httpResponse = httpClient.execute(httpPost);
+			s = readResponse(httpResponse);
+			System.out.println(s);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 	public String readResponse(HttpResponse res) {
 		InputStream is = null;
 		String return_text = "";

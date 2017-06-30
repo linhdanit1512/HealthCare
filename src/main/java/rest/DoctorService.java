@@ -57,7 +57,7 @@ public class DoctorService {
 				SpecialtyDAO.insert(specialty);
 			}
 			Date timeCreate = new Date();
-			Date birthDate = new Date(dob);
+			Date birthDate = new Date(Long.parseLong(dob));
 			Doctor doctor = new Doctor(specialty, userName, name, password, email, phone, passport, degree, birthDate, experience,
 					doctorAddress, timeCreate, false);
 			if (DoctorDAO.register(doctor)) {
@@ -154,7 +154,7 @@ public class DoctorService {
 					doctor.setExperience(experience);
 				}
 				if (check(birthDate)) {
-					Date date = new Date(birthDate);
+					Date date = new Date(Long.parseLong(birthDate));
 					doctor.setBirthDate(date);
 				}
 				if (check(email)) {

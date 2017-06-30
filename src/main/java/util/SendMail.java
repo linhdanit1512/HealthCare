@@ -20,6 +20,7 @@ public class SendMail {
 		Properties pro = System.getProperties();
 		pro.put("mail.smtp.host", "smtp.gmail.com");
 		pro.put("mail.smtp.auth", "true");
+		pro.put("mail.smtp.starttls.enable", "true");
 		pro.put("mail.smtp.port", "465");
 		pro.put("mail.smtp.socketFactory.class", javax.net.ssl.SSLSocketFactory.class.getName());
 
@@ -45,11 +46,12 @@ public class SendMail {
 		}
 	}
 	
-	public static void sendMail(String mailFrom, String content) {
+	public static boolean sendMail(String mailFrom, String content) {
 		Properties pro = System.getProperties();
 		pro.put("mail.smtp.host", "smtp.gmail.com");
 		pro.put("mail.smtp.auth", "true");
-		pro.put("mail.smtp.port", "465");
+		pro.put("mail.smtp.starttls.enable", "true");
+		pro.put("mail.smtp.port", "1568");
 		pro.put("mail.smtp.socketFactory.class", javax.net.ssl.SSLSocketFactory.class.getName());
 
 		Session session = Session.getDefaultInstance(pro, new Authenticator() {
@@ -66,18 +68,20 @@ public class SendMail {
 			message.setContent(content, "text/html; charset=UTF-8");
 			
 			Transport.send(message);
+			return true;
 		} catch (AddressException e) {
 			e.printStackTrace();
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 
 
 	public static void main(String[] args) {
-		String mail = "nguyentued@gmail.com";
+		String mail = "wintersoul1212@gmail.com";
 		try {
-			sendMail(mail);
+			System.out.println(sendMail(mail, MailUtil.forgetPasswordTemplete("1234564546", "linhdan")));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
