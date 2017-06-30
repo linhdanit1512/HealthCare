@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -38,10 +39,13 @@ public class Users implements java.io.Serializable {
 	private String email;
 	private String passwords;
 	private Date timeCreate;
+	@JsonIgnore
 	@OneToMany(mappedBy = "users")
 	private Set<Reservation> reservations = new HashSet<Reservation>(0);
+	@JsonIgnore
 	@OneToMany(mappedBy = "users")
 	private Set<Patient> patients = new HashSet<Patient>(0);
+	@JsonIgnore
 	@OneToMany(mappedBy = "users")
 	private Set<Message> messages = new HashSet<Message>(0);
 
