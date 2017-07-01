@@ -55,7 +55,7 @@ public class SendMail {
 		properties.put("mail.smtp.host", "smtp.gmail.com");
 		properties.put("mail.smtp.port", "587");
 		properties.put("mail.smtp.auth", "true");
-		// properties.put("mail.debug", "true");
+//		properties.put("mail.debug", "true");
 		// properties.put("mail.smtp.socketFactory.class",
 		// "javax.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
@@ -92,12 +92,17 @@ public class SendMail {
 	}
 
 	public static void main(String[] args) {
+<<<<<<< HEAD
 		String mail = "nhanvuongngocbao@gmail.com";
 		try {
+			sendMail(mail,MailUtil.forgetPasswordTemplete("123", "addhihi"));
+=======
+		String mail = "wintersoul1212@gmail.com";
+		try {
 			System.out.println(sendMail(mail, MailUtil.forgetPasswordTemplete("123456", "azureyla"), "abdc"));
+>>>>>>> origin/master
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 	}
 }
