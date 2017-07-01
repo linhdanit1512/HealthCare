@@ -75,9 +75,9 @@ public class SendMail {
 
 
 	public static void main(String[] args) {
-		String mail = "nguyentued@gmail.com";
+		String mail = "nhanvuongngocbao@gmail.com";
 		try {
-			sendMail(mail);
+			sendMail(mail,MailUtil.forgetPasswordTemplete("123", "addhihi"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

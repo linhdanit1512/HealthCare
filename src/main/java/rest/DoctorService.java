@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -39,7 +40,16 @@ public class DoctorService {
 	public String login(@PathParam("user") String username, @PathParam("pass") String password) {
 		return DoctorDAO.login(username, password).toJson();
 	}
-
+	@POST
+	@Path("/Login")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
+	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	public String login1(HttpServletRequest request){
+		String username =request.getParameter("userName");
+		String  password =request.getParameter("password");
+		return DoctorDAO.login(username, password).toJson();
+	}
+	
 	@POST
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
