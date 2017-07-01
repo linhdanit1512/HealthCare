@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -37,18 +36,13 @@ public class DoctorService {
 	@Path("/login/{user}/{pass}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public String login(@PathParam("user") String username, @PathParam("pass") String password) {
-		return DoctorDAO.login(username, password).toJson();
+		Doctor doctor = DoctorDAO.login(username, password);
+		if (doctor != null)
+			return doctor.toJson();
+		else
+			return "{\"" + Doctor.class.getName() + "\":null}";
 	}
-	@POST
-	@Path("/Login")
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
-	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public String login1(HttpServletRequest request){
-		String username =request.getParameter("userName");
-		String  password =request.getParameter("password");
-		return DoctorDAO.login(username, password).toJson();
-	}
-	
+
 	@POST
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
@@ -270,7 +264,7 @@ public class DoctorService {
 			return doctor.toJson();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"doctor\":null}";
+			return "{\"" + Doctor.class.getName() + "\":null}";
 		}
 	}
 
@@ -300,7 +294,7 @@ public class DoctorService {
 			}
 			return "{\"messageList\":null}";
 		} catch (Exception e) {
-			return "{\"message\":null}";
+			return "{\"messageList\":null}";
 		}
 	}
 

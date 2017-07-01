@@ -360,5 +360,4 @@ public class DoctorDAO extends ClassDAO {
 		}
 		return result + 1;
 	}
-	
 }
