@@ -47,7 +47,7 @@ public class DoctorService {
 	@Path("/register")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public String register(@FormParam("userName") String userName, @FormParam("password") String password,
+	public String register(@FormParam("userName") String userName, @FormParam("passwords") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
 			@FormParam("experience") String experient, @FormParam("email") String email,
 			@FormParam("birthDate") String dob, @FormParam("doctorAddress") String doctorAddress,
@@ -87,6 +87,7 @@ public class DoctorService {
 				Random r = new Random();
 				long i = Math.abs((r.nextInt() + 1) * 564452);
 				String pass = (i + "").substring(0, 6);
+				doctor.setOldPassword(doctor.getPasswords());
 				doctor.setPasswords(pass);
 				doctor.setPassActive(false);
 				if (DoctorDAO.update(doctor)) {
@@ -143,7 +144,7 @@ public class DoctorService {
 	@Path("/update/info/{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public String update(@PathParam("id") int id, @FormParam("password") String password,
+	public String update(@PathParam("id") int id, @FormParam("passwords") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
 			@FormParam("experience") String experient, @FormParam("email") String email,
 			@FormParam("birthDate") String birthDate, @FormParam("doctorAddress") String doctorAddress,

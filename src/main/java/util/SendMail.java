@@ -55,7 +55,7 @@ public class SendMail {
 		properties.put("mail.smtp.host", "smtp.gmail.com");
 		properties.put("mail.smtp.port", "587");
 		properties.put("mail.smtp.auth", "true");
-		 properties.put("mail.debug", "true");
+//		 properties.put("mail.debug", "true");
 		// properties.put("mail.smtp.socketFactory.class",
 		// "javax.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
