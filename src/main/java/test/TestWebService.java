@@ -21,7 +21,7 @@ import entity.Schedules;
 public class TestWebService {
 	public static void main(String[] args) {
 		TestWebService test = new TestWebService();
-		test.forgetPassword();
+		test.registerDoctor();
 	}
 
 	/**
@@ -33,18 +33,19 @@ public class TestWebService {
 		String s = "";
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost("http://localhost:8081/HealthCareService/rest/doctor/register");
+			HttpPost httpPost = new HttpPost("http://healthcare21617.azurewebsites.net/rest/doctor/register");
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
-			list.add(new BasicNameValuePair("userName", "linhdanTest2"));
+			list.add(new BasicNameValuePair("userName", "linhdanTest3"));
 			list.add(new BasicNameValuePair("password", "Test123456"));
 			list.add(new BasicNameValuePair("name", "Pham Trang Linh Dan"));
-			list.add(new BasicNameValuePair("specialty", "Truyền nhiễm"));
-			list.add(new BasicNameValuePair("degree", "12/12"));
+			list.add(new BasicNameValuePair("specialty", "Tim"));
+			list.add(new BasicNameValuePair("birthDate", "156484646"));
+			list.add(new BasicNameValuePair("degree", "Đại học"));
 			list.add(new BasicNameValuePair("experience", "3"));
 			list.add(new BasicNameValuePair("email", "wintersoul1212@gmail.com"));
 			list.add(new BasicNameValuePair("doctorAddress", "Tân Đông Hiệp - Dĩ An - Bình Dương"));
-			list.add(new BasicNameValuePair("phone", "01284871663"));
-			list.add(new BasicNameValuePair("passport", "251036900802"));
+			list.add(new BasicNameValuePair("phone", "012848716644"));
+			list.add(new BasicNameValuePair("passport", "251036900803"));
 			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
 
 			System.out.println("List: " + list.toString());

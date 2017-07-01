@@ -56,6 +56,9 @@ public class Doctor implements java.io.Serializable {
 	private String address;
 	private Date timeCreate;
 	private Boolean isCheck;
+	private String oldPassword;
+	private Boolean passActive;
+	private Date timeChange;
 	@JsonIgnore
 	@ManyToMany(mappedBy = "doctors")
 	private Set<Schedules> scheduleses = new HashSet<Schedules>(0);
@@ -75,8 +78,8 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(Clinic clinic, Specialty specialty, String username, String nameDoctor, String passwords,
-			String phone, String email, String passport, String degree, Date birthDate, Integer experience, String address,
-			Date timeCreate, Boolean isCheck) {
+			String phone, String email, String passport, String degree, Date birthDate, Integer experience,
+			String address, Date timeCreate, Boolean isCheck) {
 		super();
 		this.clinic = clinic;
 		this.specialty = specialty;
@@ -95,7 +98,8 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(Specialty specialty, String username, String nameDoctor, String passwords, String email, String phone,
-			String passport, String degree, Date birthDate, Integer experience, String address, Date timeCreate, Boolean isCheck) {
+			String passport, String degree, Date birthDate, Integer experience, String address, Date timeCreate,
+			Boolean isCheck) {
 		super();
 		this.specialty = specialty;
 		this.username = username;
@@ -113,8 +117,9 @@ public class Doctor implements java.io.Serializable {
 	}
 
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
-			String passwords, String phone, String email, String passport, Date birthDate, String degree, Integer experience,
-			String address,  Date timeCreate, Boolean isCheck) {
+			String passwords, String phone, String email, String passport, Date birthDate, String degree,
+			Integer experience, String address, Date timeCreate, Boolean isCheck, String oldPassword,
+			Boolean passActive, Date timeChange) {
 		super();
 		this.idDoctor = idDoctor;
 		this.clinic = clinic;
@@ -131,11 +136,15 @@ public class Doctor implements java.io.Serializable {
 		this.address = address;
 		this.timeCreate = timeCreate;
 		this.isCheck = isCheck;
+		this.passActive = passActive;
+		this.oldPassword = oldPassword;
+		this.timeChange = timeChange;
 	}
 
 	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
-			String passwords, String phone, String email, String passport, String degree, Date birthDate, Integer experience,
-			String address, Date timeCreate, Boolean isCheck, Set<Schedules> scheduleses, Set<Reservation> reservations,
+			String passwords, String phone, String email, String passport, String degree, Date birthDate,
+			Integer experience, String address, Date timeCreate, Boolean isCheck, String oldPassword,
+			Boolean passActive, Date timeChange, Set<Schedules> scheduleses, Set<Reservation> reservations,
 			Set<Message> messages) {
 		super();
 		this.idDoctor = idDoctor;
@@ -224,8 +233,6 @@ public class Doctor implements java.io.Serializable {
 	public String getPassport() {
 		return this.passport;
 	}
-	
-	
 
 	public Date getBirthDate() {
 		return birthDate;
@@ -319,6 +326,33 @@ public class Doctor implements java.io.Serializable {
 	@XmlElement
 	public void setMessages(Set<Message> messages) {
 		this.messages = messages;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public Boolean getPassActive() {
+		return passActive;
+	}
+
+	public Date getTimeChange() {
+		return timeChange;
+	}
+
+	@XmlElement
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	@XmlElement
+	public void setPassActive(Boolean passActive) {
+		this.passActive = passActive;
+	}
+
+	@XmlElement
+	public void setTimeChange(Date timeChange) {
+		this.timeChange = timeChange;
 	}
 
 	@Override

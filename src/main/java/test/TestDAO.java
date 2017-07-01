@@ -1,7 +1,5 @@
 package test;
 
-import DAO.DoctorDAO;
-import entity.Reservation;
 import util.HibernateUtils;
 
 public class TestDAO {
@@ -22,7 +20,7 @@ public class TestDAO {
 //		System.out.println(HibernateUtils.getSessionFactory());
 //		System.out.println(DoctorDAO.getDoctor(1).toJson());
 //		System.out.println(HibernateUtils.getSessionFactory());
-		System.out.println(Reservation.toJsonList(DoctorDAO.getReservationUnchecked(1)));
+//		System.out.println(Reservation.toJsonList(DoctorDAO.getReservationUnchecked(1)));
 //		System.out.println(DoctorDAO.login("nguyentu", "123"));
 //		System.out.println(ClinicDAO.getClinicHasDoctor());
 //		System.out.println(Reservation.toJsonList(DoctorDAO.getReservationChecked(1)));
