@@ -44,7 +44,7 @@ public class Doctor implements java.io.Serializable {
 	private Clinic clinic;
 	@ManyToOne
 	private Specialty specialty;
-	private String username;
+	private String userName;
 	private String nameDoctor;
 	private String passwords;
 	private String email;
@@ -77,13 +77,13 @@ public class Doctor implements java.io.Serializable {
 		this.timeCreate = timeCreate;
 	}
 
-	public Doctor(Clinic clinic, Specialty specialty, String username, String nameDoctor, String passwords,
+	public Doctor(Clinic clinic, Specialty specialty, String userName, String nameDoctor, String passwords,
 			String phone, String email, String passport, String degree, Date birthDate, Integer experience,
 			String address, Date timeCreate, Boolean isCheck) {
 		super();
 		this.clinic = clinic;
 		this.specialty = specialty;
-		this.username = username;
+		this.userName = userName;
 		this.nameDoctor = nameDoctor;
 		this.passwords = passwords;
 		this.phone = phone;
@@ -97,12 +97,12 @@ public class Doctor implements java.io.Serializable {
 		this.isCheck = isCheck;
 	}
 
-	public Doctor(Specialty specialty, String username, String nameDoctor, String passwords, String email, String phone,
+	public Doctor(Specialty specialty, String userName, String nameDoctor, String passwords, String email, String phone,
 			String passport, String degree, Date birthDate, Integer experience, String address, Date timeCreate,
 			Boolean isCheck) {
 		super();
 		this.specialty = specialty;
-		this.username = username;
+		this.userName = userName;
 		this.nameDoctor = nameDoctor;
 		this.passwords = passwords;
 		this.email = email;
@@ -116,7 +116,7 @@ public class Doctor implements java.io.Serializable {
 		this.isCheck = isCheck;
 	}
 
-	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
+	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String userName, String nameDoctor,
 			String passwords, String phone, String email, String passport, Date birthDate, String degree,
 			Integer experience, String address, Date timeCreate, Boolean isCheck, String oldPassword,
 			Boolean passActive, Date timeChange) {
@@ -124,7 +124,7 @@ public class Doctor implements java.io.Serializable {
 		this.idDoctor = idDoctor;
 		this.clinic = clinic;
 		this.specialty = specialty;
-		this.username = username;
+		this.userName = userName;
 		this.nameDoctor = nameDoctor;
 		this.passwords = passwords;
 		this.phone = phone;
@@ -141,7 +141,7 @@ public class Doctor implements java.io.Serializable {
 		this.timeChange = timeChange;
 	}
 
-	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String username, String nameDoctor,
+	public Doctor(int idDoctor, Clinic clinic, Specialty specialty, String userName, String nameDoctor,
 			String passwords, String phone, String email, String passport, String degree, Date birthDate,
 			Integer experience, String address, Date timeCreate, Boolean isCheck, String oldPassword,
 			Boolean passActive, Date timeChange, Set<Schedules> scheduleses, Set<Reservation> reservations,
@@ -150,7 +150,7 @@ public class Doctor implements java.io.Serializable {
 		this.idDoctor = idDoctor;
 		this.clinic = clinic;
 		this.specialty = specialty;
-		this.username = username;
+		this.userName = userName;
 		this.nameDoctor = nameDoctor;
 		this.passwords = passwords;
 		this.phone = phone;
@@ -194,13 +194,13 @@ public class Doctor implements java.io.Serializable {
 		this.specialty = specialty;
 	}
 
-	public String getUsername() {
-		return this.username;
+	public String getUserName() {
+		return this.userName;
 	}
 
 	@XmlElement
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getNameDoctor() {
@@ -364,8 +364,8 @@ public class Doctor implements java.io.Serializable {
 		builder.append(clinic);
 		builder.append(", specialty=");
 		builder.append(specialty);
-		builder.append(", username=");
-		builder.append(username);
+		builder.append(", userName=");
+		builder.append(userName);
 		builder.append(", nameDoctor=");
 		builder.append(nameDoctor);
 		builder.append(", passwords=");

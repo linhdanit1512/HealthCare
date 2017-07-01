@@ -152,7 +152,7 @@ public class DoctorDAO extends ClassDAO {
 						+ " e where e.idDoctor =:id or e.username=:username or e.passport =:passport or e.email=:email";
 				Query<Doctor> query = session.createQuery(hql);
 				query.setParameter("id", doctor.getIdDoctor());
-				query.setParameter("username", doctor.getUsername());
+				query.setParameter("username", doctor.getUserName());
 				query.setParameter("passport", doctor.getPassport());
 				query.setParameter("email", doctor.getEmail());
 				list.addAll(query.list());

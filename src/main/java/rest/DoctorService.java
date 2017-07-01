@@ -91,7 +91,7 @@ public class DoctorService {
 				doctor.setPasswords(pass);
 				doctor.setPassActive(false);
 				if (DoctorDAO.update(doctor)) {
-					SendMail.sendMail(email, MailUtil.forgetPasswordTemplete(pass, doctor.getUsername()),
+					SendMail.sendMail(email, MailUtil.forgetPasswordTemplete(pass, doctor.getUserName()),
 							"[LẤY LẠI MẬT KHẨU HEALTH CARE]");
 					return "Đã đổi mật khẩu, bạn vui lòng vào email để kiểm tra";
 				}

@@ -22,7 +22,7 @@ import entity.Schedules;
 public class TestWebService {
 	public static void main(String[] args) {
 		TestWebService test = new TestWebService();
-		test.forgetPassword();
+		test.updateDoctor();
 	}
 
 	/**
@@ -79,12 +79,12 @@ public class TestWebService {
 		String s = "";
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
-			HttpPut httpPost = new HttpPut("http://localhost:8080/HealthCareService/rest/doctor/update/info/1");
+			HttpPut httpPost = new HttpPut("http://healthcare21617.azurewebsites.net/rest/doctor/update/info/1");
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
 			list.add(new BasicNameValuePair("passwords", "7753949_vvv"));
 			list.add(new BasicNameValuePair("name", "Phạm Trang Linh Đan"));
 			list.add(new BasicNameValuePair("specialty", "Tim"));
-			list.add(new BasicNameValuePair("experience", "5"));
+			list.add(new BasicNameValuePair("experience", "4"));
 			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
 
 			System.out.println("List: " + list.toString());

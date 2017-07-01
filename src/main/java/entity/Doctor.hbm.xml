@@ -15,8 +15,8 @@
         <many-to-one name="specialty" class="entity.Specialty" fetch="select">
             <column name="idSpecialty" />
         </many-to-one>
-        <property name="username" type="string">
-            <column name="username" length="30" unique="true" />
+        <property name="userName" type="string">
+            <column name="userName" length="30" unique="true" />
         </property>
         <property name="nameDoctor" type="string">
             <column name="nameDoctor" length="100" />
