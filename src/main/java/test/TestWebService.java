@@ -16,13 +16,11 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
-import DAO.DoctorDAO;
-import entity.Schedules;
-
 public class TestWebService {
 	public static void main(String[] args) {
 		TestWebService test = new TestWebService();
-		test.updateDoctor();
+		test.login();
+//		test.forgetPassword();
 	}
 
 	/**
@@ -62,10 +60,10 @@ public class TestWebService {
 	public void login() {
 		String s = "";
 		try {
-			String name = "linhdan", password = "";
+			String name = "linhdan", password = "114204";
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpGet httpPost = new HttpGet(
-					"http://healthcare21617.azurewebsites.net/rest/doctor/login/" + name + "/" + password);
+					"http://localhost:8080/HealthCareService/rest/doctor/login/" + name + "/" + password);
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			s = readResponse(httpResponse);
 			System.out.println(s);
@@ -101,7 +99,7 @@ public class TestWebService {
 		String s = "";
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
-			HttpPut httpPost = new HttpPut("http://localhost:8080/HealthCareService/rest/doctor/forgetpassword");
+			HttpPut httpPost = new HttpPut("http://healthcare21617.azurewebsites.net/rest/doctor/forgetpassword");
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
 			list.add(new BasicNameValuePair("email", "14130185@st.hcmuaf.edu.vn"));
 			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
@@ -121,9 +119,9 @@ public class TestWebService {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost("http://healthcare21617.azurewebsites.net/rest/schedules/registry/list");
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
-			list.add(new BasicNameValuePair("idDoctor", "20"));
-			list.add(new BasicNameValuePair("scheduleList",
-					Schedules.toJsonList(DoctorDAO.getDoctor(2).getScheduleses())));
+			list.add(new BasicNameValuePair("idDoctor", "9"));
+			String aa = "{\"scheduleList\":[{\"idSchedule\":\"476\",\"dates\":\"tuesday\",\"startTime\":\"25200\",\"stopTime\":\"39600\",\"workspace\":\"An Tâm - Linh Trung - Thủ Đức - TP.HCM\"},{\"idSchedule\":\"558\",\"dates\":\"wednesday\",\"startTime\":\"25200\",\"stopTime\":\"39600\",\"workspace\":\"An Tâm - Linh Trung - Thủ Đức - TP.HCM\"},{\"idSchedule\":\"318\",\"dates\":\"thursday\",\"startTime\":\"25200\",\"stopTime\":\"39600\",\"workspace\":\"An Tâm - Linh Trung - Thủ Đức - TP.HCM\"},{\"idSchedule\":\"57\",\"dates\":\"saturday\",\"startTime\":\"43200\",\"stopTime\":\"61200\",\"workspace\":\"Nguyễn Kim - Linh Xuân - Thủ Đức - TP.HCM\"},{\"idSchedule\":\"796\",\"dates\":\"friday\",\"startTime\":\"25200\",\"stopTime\":\"39600\",\"workspace\":\"An Tâm - Linh Trung - Thủ Đức - TP.HCM\"}]}";
+			list.add(new BasicNameValuePair("scheduleList", aa));
 			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
 			System.out.println("List: " + list.toString());
 			HttpResponse httpResponse = httpClient.execute(httpPost);

@@ -57,7 +57,7 @@
        <td align="center"><a class="btn btn-default"><em class="fa fa-pencil"></em></a> <a class="btn btn-danger"><em class="fa fa-trash"></em></a>
        </td> 
        <td class="hidden-xs"><%=i+1 %></td> 
-       <td> <%=list.get(i).getUsername() %></td> 
+       <td> <%=list.get(i).getUserName() %></td> 
        <td><%=list.get(i).getNameDoctor()%></td>
        <td><%=list.get(i).getEmail() %></td> 
        <td><%=list.get(i).getPasswords()%></td>

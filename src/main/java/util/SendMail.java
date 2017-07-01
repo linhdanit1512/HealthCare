@@ -74,7 +74,7 @@ public class SendMail {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 			// Set Subject: header field
-			message.setSubject(subject);
+			message.setSubject(subject, "UTF-8");
 
 			// Now set the actual message
 			message.setContent(content, "text/html; charset=UTF-8");

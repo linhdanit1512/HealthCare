@@ -1,6 +1,7 @@
 package DAO;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -85,7 +86,7 @@ public class DoctorDAO extends ClassDAO {
 			query.setParameter("name", userName);
 			query.setParameter("pass", pass);
 			doctor = query.getSingleResult();
-			if (checkDoctor(doctor)) {
+			if (checkDoctor(doctor, session)) {
 				session.getTransaction().commit();
 				return doctor;
 			} else {
@@ -99,31 +100,37 @@ public class DoctorDAO extends ClassDAO {
 		}
 	}
 
-	private static boolean checkDoctor(Doctor doctor) {
+	private static boolean checkDoctor(Doctor doctor, Session session) {
 		if (doctor == null)
 			return false;
 		if (doctor.getPassActive())
 			return true;
 		else {
-			Date date = new Date();
+			Date date = new Date(System.currentTimeMillis());
 			/*
 			 * thời gian từ lúc thay đổi tới hiện tại
 			 */
+			Calendar c1 = Calendar.getInstance();
+			Calendar c2 = Calendar.getInstance();
+			c1.setTime(date);
+			c2.setTime(doctor.getTimeChange());
+			c2.roll(Calendar.MINUTE, 20);
 			long x = date.getTime() - doctor.getTimeChange().getTime();
-			if (x <= (60 * 20 * 1000)) {
+			System.out.println(x + "    " + 60 * 20 * 1000);
+			if (x <= (60 * 20 * 1000000)) {
 				doctor.setPassActive(true);
 				doctor.setOldPassword(doctor.getPasswords());
-				update(doctor);
+				session.update(doctor);
 				return true;
 			} else {
 				doctor.setPassActive(true);
 				if (doctor.getOldPassword().equals(doctor.getPasswords())) {
 					doctor.setPasswords(doctor.getOldPassword());
-					update(doctor);
+					session.update(doctor);
 					return true;
 				}
 				doctor.setPasswords(doctor.getOldPassword());
-				update(doctor);
+				session.update(doctor);
 				return false;
 			}
 		}

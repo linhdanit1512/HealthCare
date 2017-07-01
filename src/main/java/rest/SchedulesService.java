@@ -44,12 +44,15 @@ public class SchedulesService {
 		} else
 			return "Không tìm thấy bác sĩ này";
 	}
-/**
- * 
- * @param idDoctor: mã số Doctor
- * @param scheduleList: jsonString của 1 List<Schedule>
- * @return
- */
+
+	/**
+	 * 
+	 * @param idDoctor:
+	 *            mã số Doctor
+	 * @param scheduleList:
+	 *            jsonString của 1 List<Schedule>
+	 * @return
+	 */
 	@POST
 	@Path("/registry/list")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
@@ -62,9 +65,11 @@ public class SchedulesService {
 				for (Schedules s : setSchedule) {
 					if (ScheduleDAO.getSchedules(s.getIdSchedule()) != null)
 						set.add(s);
-					else
-						set.add(new Schedules(s));
-
+					else {
+						Schedules sche = new Schedules(s);
+						ScheduleDAO.insert(sche);
+						set.add(sche);
+					}
 				}
 			}
 			doctor.setScheduleses(set);

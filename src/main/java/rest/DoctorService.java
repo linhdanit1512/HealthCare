@@ -80,6 +80,7 @@ public class DoctorService {
 	@PUT
 	@Path("/forgetpassword")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + ";charset=utf-8")
 	public String forgetpass(@FormParam("email") String email) {
 		try {
 			Doctor doctor = DoctorDAO.getDoctorEmail(email);
@@ -88,6 +89,7 @@ public class DoctorService {
 				long i = Math.abs((r.nextInt() + 1) * 564452);
 				String pass = (i + "").substring(0, 6);
 				doctor.setOldPassword(doctor.getPasswords());
+				doctor.setTimeChange(new Date());
 				doctor.setPasswords(pass);
 				doctor.setPassActive(false);
 				if (DoctorDAO.update(doctor)) {
@@ -158,6 +160,7 @@ public class DoctorService {
 					} else {
 						doctor.setTimeChange(new Date());
 						doctor.setPasswords(password);
+						doctor.setOldPassword(password);
 						doctor.setPassActive(true);
 					}
 
