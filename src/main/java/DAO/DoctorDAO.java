@@ -74,15 +74,15 @@ public class DoctorDAO extends ClassDAO {
 	 */
 	private static final long serialVersionUID = 2360930720951306835L;
 
-	public static Doctor login(String username, String pass) {
+	public static Doctor login(String userName, String pass) {
 		Doctor doctor = null;
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Doctor.class.getName()
-					+ " e where e.username =:name and e.passwords =:pass and e.isCheck = true";
+					+ " e where e.userName =:name and e.passwords =:pass and e.isCheck = true";
 			Query<Doctor> query = session.createQuery(hql);
-			query.setParameter("name", username);
+			query.setParameter("name", userName);
 			query.setParameter("pass", pass);
 			doctor = query.getSingleResult();
 			if (checkDoctor(doctor)) {
@@ -100,6 +100,8 @@ public class DoctorDAO extends ClassDAO {
 	}
 
 	private static boolean checkDoctor(Doctor doctor) {
+		if (doctor == null)
+			return false;
 		if (doctor.getPassActive())
 			return true;
 		else {
@@ -115,7 +117,7 @@ public class DoctorDAO extends ClassDAO {
 				return true;
 			} else {
 				doctor.setPassActive(true);
-				if(doctor.getOldPassword().equals(doctor.getPasswords())){
+				if (doctor.getOldPassword().equals(doctor.getPasswords())) {
 					doctor.setPasswords(doctor.getOldPassword());
 					update(doctor);
 					return true;
@@ -134,7 +136,7 @@ public class DoctorDAO extends ClassDAO {
 	 * 
 	 * + id khong duoc trung
 	 * 
-	 * + username ko duoc trung
+	 * + userName ko duoc trung
 	 * 
 	 * + CMND ko duoc trung
 	 * 
@@ -149,10 +151,10 @@ public class DoctorDAO extends ClassDAO {
 				session.getTransaction().begin();
 
 				String hql = "from " + Doctor.class.getName()
-						+ " e where e.idDoctor =:id or e.username=:username or e.passport =:passport or e.email=:email";
+						+ " e where e.idDoctor =:id or e.userName=:userName or e.passport =:passport or e.email=:email";
 				Query<Doctor> query = session.createQuery(hql);
 				query.setParameter("id", doctor.getIdDoctor());
-				query.setParameter("username", doctor.getUserName());
+				query.setParameter("userName", doctor.getUserName());
 				query.setParameter("passport", doctor.getPassport());
 				query.setParameter("email", doctor.getEmail());
 				list.addAll(query.list());
@@ -185,7 +187,7 @@ public class DoctorDAO extends ClassDAO {
 		}
 		return doctors;
 	}
-	
+
 	public static List<Doctor> getDoctorUncheck() {
 		List<Doctor> doctors = new ArrayList<Doctor>();
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();

@@ -19,10 +19,10 @@ public class TestDAO {
 //		System.out.println(SpecialtyDAO.getAllSpecialty() + "\n");
 //		System.out.println(UserDAO.getAllUsers());
 //		System.out.println(HibernateUtils.getSessionFactory());
-		System.out.println(DoctorDAO.getDoctor(1).toJson());
+//		System.out.println(DoctorDAO.getDoctor(1).toJson());
 //		System.out.println(HibernateUtils.getSessionFactory());
 //		System.out.println(Reservation.toJsonList(DoctorDAO.getReservationUnchecked(1)));
-//		System.out.println(DoctorDAO.login("nguyentu", "123"));
+		System.out.println(DoctorDAO.login("nguyentu", "123456"));
 //		System.out.println(ClinicDAO.getClinicHasDoctor());
 //		System.out.println(Reservation.toJsonList(DoctorDAO.getReservationChecked(1)));
 		 HibernateUtils.shutdown();
