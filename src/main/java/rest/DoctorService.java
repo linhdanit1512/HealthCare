@@ -72,12 +72,14 @@ public class DoctorService {
 	@PUT
 	@Path("/forgetpassword")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public String forgetpass(@FormParam("email") String email, @Context HttpServletResponse servletResponse) {
+	public String forgetpass(@FormParam("email") String email) {
 		try {
+			System.out.println("ahihi");
 			Doctor doctor = DoctorDAO.getDoctorEmail(email);
+			System.out.println(doctor);
 			if (doctor != null) {
 				Random r = new Random();
-				long i = (r.nextLong() + 1) * 5684452;
+				long i = Math.abs((r.nextInt() + 1) * 564452);
 				String pass = (i + "").substring(0, 6);
 				doctor.setPasswords(pass);
 				if (DoctorDAO.update(doctor)) {

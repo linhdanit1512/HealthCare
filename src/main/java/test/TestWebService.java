@@ -11,6 +11,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -20,7 +21,7 @@ import entity.Schedules;
 public class TestWebService {
 	public static void main(String[] args) {
 		TestWebService test = new TestWebService();
-		test.regisSchedule();
+		test.forgetPassword();
 	}
 
 	/**
@@ -45,7 +46,7 @@ public class TestWebService {
 			list.add(new BasicNameValuePair("phone", "01284871663"));
 			list.add(new BasicNameValuePair("passport", "251036900802"));
 			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
-			
+
 			System.out.println("List: " + list.toString());
 			HttpResponse httpResponse = httpClient.execute(httpPost);
 			s = readResponse(httpResponse);
@@ -55,13 +56,14 @@ public class TestWebService {
 		}
 
 	}
+
 	public void forgetPassword() {
 		String s = "";
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost("http://healthcare21617.azurewebsites.net/rest/doctor/forgetpassword");
+			HttpPut httpPost = new HttpPut("http://localhost:8080/HealthCareService/rest/doctor/forgetpassword");
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
-			list.add(new BasicNameValuePair("email", "wintersoul1212@gmail.com"));
+			list.add(new BasicNameValuePair("email", "14130185@st.hcmuaf.edu.vn"));
 			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
 			System.out.println("List: " + list.toString());
 			HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -70,17 +72,18 @@ public class TestWebService {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-
+		System.out.println("Complete");
 	}
-	
-	public void regisSchedule(){
+
+	public void regisSchedule() {
 		String s = "";
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost("http://healthcare21617.azurewebsites.net/rest/schedules/registry/list");
 			List<NameValuePair> list = new ArrayList<NameValuePair>();
 			list.add(new BasicNameValuePair("idDoctor", "5"));
-			list.add(new BasicNameValuePair("scheduleList", Schedules.toJsonList(DoctorDAO.getDoctor(2).getScheduleses())));
+			list.add(new BasicNameValuePair("scheduleList",
+					Schedules.toJsonList(DoctorDAO.getDoctor(2).getScheduleses())));
 			httpPost.setEntity(new UrlEncodedFormEntity(list, "utf-8"));
 			System.out.println("List: " + list.toString());
 			HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -90,6 +93,7 @@ public class TestWebService {
 			System.out.println(e);
 		}
 	}
+
 	public String readResponse(HttpResponse res) {
 		InputStream is = null;
 		String return_text = "";

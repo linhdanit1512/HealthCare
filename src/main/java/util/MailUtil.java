@@ -6,12 +6,12 @@ public class MailUtil {
 
 	public static String forgetPasswordTemplete(String pass, String username) {
 		StringBuilder s = new StringBuilder();
-		String time = new Date(System.currentTimeMillis()).toGMTString();
+		String time = new Date(System.currentTimeMillis()).toString();
 		s.append("<h3><strong>LẤY LẠI MẬT KHẨU THÀNH CÔNG</strong></h3><br><br>");
-		s.append("<div>Bạn đã yêu cầu lấy lại mật khẩu vào lúc " + time + "<br>");
+		s.append("<div>Bạn đã yêu cầu lấy lại mật khẩu vào lúc: " + time + "<br>");
 		s.append("Mật khẩu tài khoản " + username + " của bạn được đổi thành <strong>" + pass + "<strong><br>");
 		s.append("Cảm ơn bạn đã đồng hành cùng chúng tôi trong thời gian qua!<br></div>");
-		s.append("<hr/><br>");
+		s.append("<hr><br>");
 		s.append("We care for your kid");
 		return s.toString();
 	}
