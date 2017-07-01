@@ -20,7 +20,7 @@ public class MailUtil {
 	}
 
 	public static String getSubject() {
-		return "We care for your kid " + new Date();
+		return "[We care for your kid " + new Date()+"]";
 	}
 
 	public static String getTemplateMailConfirmDoctor() {

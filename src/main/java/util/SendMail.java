@@ -45,7 +45,7 @@ public class SendMail {
 		}
 	}
 
-	public static boolean sendMail(String to, String content) {
+	public static boolean sendMail(String to, String content, String subject) {
 
 		Properties properties = new Properties();
 		// Setup mail server
@@ -74,7 +74,7 @@ public class SendMail {
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
 			// Set Subject: header field
-			message.setSubject(MailUtil.getSubject());
+			message.setSubject(subject);
 
 			// Now set the actual message
 			message.setContent(content, "text/html; charset=UTF-8");
@@ -94,7 +94,7 @@ public class SendMail {
 	public static void main(String[] args) {
 		String mail = "wintersoul1212@gmail.com";
 		try {
-			System.out.println(sendMail(mail, MailUtil.forgetPasswordTemplete("123456", "azureyla")));
+			System.out.println(sendMail(mail, MailUtil.forgetPasswordTemplete("123456", "azureyla"), "abdc"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

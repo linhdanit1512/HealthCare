@@ -84,7 +84,8 @@ public class DoctorService {
 				doctor.setPasswords(pass);
 				doctor.setPassActive(false);
 				if (DoctorDAO.update(doctor)) {
-					SendMail.sendMail(email, MailUtil.forgetPasswordTemplete(pass, doctor.getUsername()));
+					SendMail.sendMail(email, MailUtil.forgetPasswordTemplete(pass, doctor.getUsername()),
+							"[LẤY LẠI MẬT KHẨU HEALTH CARE]");
 					return "Đã đổi mật khẩu, bạn vui lòng vào email để kiểm tra";
 				}
 			}
@@ -101,9 +102,10 @@ public class DoctorService {
 		Doctor doctor = DoctorDAO.getDoctor(id);
 		if (doctor != null) {
 			doctor.setIsCheck(true);
-			String to =doctor.getEmail();
-			String content = "";
-			SendMail.sendMail(to, content);
+			doctor.setOldPassword(doctor.getPasswords());
+			String to = doctor.getEmail();
+			String content = MailUtil.getTemplateMailConfirmDoctor();
+			SendMail.sendMail(to, content, "[XÁC NHẬN TÀI KHOẢN HEALTH CARE]");
 			return "Duyệt thành công";
 		}
 		return "Duyệt thất bại";
@@ -222,6 +224,22 @@ public class DoctorService {
 	public String getAllDoctor() {
 		try {
 			List<Doctor> list = DoctorDAO.getAllDoctor();
+			if (list != null) {
+				return Doctor.toJsonList(list);
+			} else
+				return "{\"doctorList\": null}";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{\"doctorList\": null}";
+		}
+	}
+
+	@GET
+	@Path("/uncheck")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getDoctorUncheck() {
+		try {
+			List<Doctor> list = DoctorDAO.getDoctorUncheck();
 			if (list != null) {
 				return Doctor.toJsonList(list);
 			} else

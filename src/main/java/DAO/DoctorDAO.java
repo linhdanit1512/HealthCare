@@ -185,6 +185,22 @@ public class DoctorDAO extends ClassDAO {
 		}
 		return doctors;
 	}
+	
+	public static List<Doctor> getDoctorUncheck() {
+		List<Doctor> doctors = new ArrayList<Doctor>();
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Doctor.class.getName() + " e where e.isCheck=false order by e.idDoctor asc";
+			Query<Doctor> query = session.createQuery(hql);
+			doctors = query.list();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return doctors;
+	}
 
 	public static Doctor getDoctor(int id) {
 		Doctor doctor = null;
