@@ -67,6 +67,8 @@ public class DoctorService {
 			if (DoctorDAO.register(doctor)) {
 				doctor.setOldPassword(password);
 				doctor.setPassActive(true);
+				doctor.setTimeChange(timeCreate);
+				System.out.println(doctor);
 				return DoctorDAO.insert(doctor) ? "Đăng ký thành công" : "Đăng ký thất bại";
 			}
 			return "Không đăng ký được";

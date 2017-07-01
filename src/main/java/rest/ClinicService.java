@@ -26,13 +26,13 @@ public class ClinicService {
 			if (clinic != null)
 				return clinic.toJson();
 			else
-				return "{\"clinic\":null";
+				return "{\"" + Clinic.class.getName() + "\":null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"clinic\":null";
+			return "{\"" + Clinic.class.getName() + "\":null}";
 		}
 	}
-	
+
 	@Path("/all")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")

@@ -1,7 +1,5 @@
 package rest;
 
-import java.util.List;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,9 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import DAO.ClinicDAO;
-import DAO.DoctorDAO;
 import entity.Clinic;
-import entity.Reservation;
 
 @Path("/checkLogin")
 public class CheckLogin {
@@ -26,10 +22,10 @@ public class CheckLogin {
 			if (clinic != null)
 				return clinic.toJson();
 			else
-				return "{\"clinic\":null";
+				return "{\""+Clinic.class.getName()+"\":null}";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "{\"clinic\":null";
+			return "{\""+Clinic.class.getName()+"\":null}";
 		}
 	}
 }

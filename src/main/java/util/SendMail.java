@@ -55,7 +55,7 @@ public class SendMail {
 		properties.put("mail.smtp.host", "smtp.gmail.com");
 		properties.put("mail.smtp.port", "587");
 		properties.put("mail.smtp.auth", "true");
-		// properties.put("mail.debug", "true");
+		 properties.put("mail.debug", "true");
 		// properties.put("mail.smtp.socketFactory.class",
 		// "javax.net.ssl.SSLSocketFactory");
 		properties.put("mail.smtp.ssl.trust", "smtp.gmail.com");
@@ -81,7 +81,8 @@ public class SendMail {
 
 			// Send message
 			Transport transport = session.getTransport("smtp");
-			transport.connect("smtp.gmail.com", mailServer, passServer);
+			String pass = "qjuythcdbbflpkef";
+			transport.connect("smtp.gmail.com", mailServer, pass);
 			transport.sendMessage(message, message.getAllRecipients());
 			transport.close();
 			return true;

@@ -36,7 +36,7 @@ public class MessageService {
 			return Message.toJsonList(messages);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+			return "{\"clinicList\":null}";
 		}
 	}
 
