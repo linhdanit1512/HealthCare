@@ -51,12 +51,19 @@
 				var useName =$("#useName").val();
 				var password =$("#password").val();
 				$.ajax({
-					url:"/doctor/Login",
-					type:"POST",
+					url:"/HealthCareService/rest/doctor/login/"+useName+"/"+password,
+					type:"GET",
 					dataType:"JSON",
 					data:{useName:useName,password:password},
 					success:function(data){
-						alert(data);
+						var json =JSON.stringify(data);
+						if(json!=null){
+							alert("ok")
+						}else{
+							alert("no");
+						}	
+						
+						
 					}
 									
 					

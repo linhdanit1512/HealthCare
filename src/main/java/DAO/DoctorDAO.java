@@ -75,7 +75,7 @@ public class DoctorDAO extends ClassDAO {
 	private static final long serialVersionUID = 2360930720951306835L;
 
 	public static Doctor login(String username, String pass) {
-		Doctor doctor = null;
+		Doctor doctor = new Doctor();
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
@@ -90,12 +90,12 @@ public class DoctorDAO extends ClassDAO {
 				return doctor;
 			} else {
 				session.getTransaction().commit();
-				return null;
+				return doctor;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
-			return null;
+			return doctor;
 		}
 	}
 
