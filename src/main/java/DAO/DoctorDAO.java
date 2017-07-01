@@ -2,6 +2,7 @@ package DAO;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -84,12 +85,46 @@ public class DoctorDAO extends ClassDAO {
 			query.setParameter("name", username);
 			query.setParameter("pass", pass);
 			doctor = query.getSingleResult();
-			session.getTransaction().commit();
+			if (checkDoctor(doctor)) {
+				session.getTransaction().commit();
+				return doctor;
+			} else {
+				session.getTransaction().commit();
+				return null;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
+			return null;
 		}
-		return doctor;
+	}
+
+	private static boolean checkDoctor(Doctor doctor) {
+		if (doctor.getPassActive())
+			return true;
+		else {
+			Date date = new Date();
+			/*
+			 * thời gian từ lúc thay đổi tới hiện tại
+			 */
+			long x = date.getTime() - doctor.getTimeChange().getTime();
+			if (x <= (60 * 20 * 1000)) {
+				doctor.setPassActive(true);
+				doctor.setOldPassword(doctor.getPasswords());
+				update(doctor);
+				return true;
+			} else {
+				doctor.setPassActive(true);
+				if(doctor.getOldPassword().equals(doctor.getPasswords())){
+					doctor.setPasswords(doctor.getOldPassword());
+					update(doctor);
+					return true;
+				}
+				doctor.setPasswords(doctor.getOldPassword());
+				update(doctor);
+				return false;
+			}
+		}
 	}
 
 	/**
@@ -114,42 +149,12 @@ public class DoctorDAO extends ClassDAO {
 				session.getTransaction().begin();
 
 				String hql = "from " + Doctor.class.getName()
-						+ " e where e.idDoctor =:id or e.username=:username or e.passport =:passport";
+						+ " e where e.idDoctor =:id or e.username=:username or e.passport =:passport or e.email=:email";
 				Query<Doctor> query = session.createQuery(hql);
 				query.setParameter("id", doctor.getIdDoctor());
 				query.setParameter("username", doctor.getUsername());
 				query.setParameter("passport", doctor.getPassport());
-
-				list.addAll(query.list());
-				session.getTransaction().commit();
-				if (list.size() > 0)
-					return false;
-				else
-					return true;
-			} catch (Exception e) {
-				e.printStackTrace();
-				session.getTransaction().rollback();
-				return false;
-			}
-		}
-		return false;
-	}
-
-	public static boolean register(String jsonDoctor) {
-		if (jsonDoctor != null) {
-			Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-			try {
-				Doctor doctor = Doctor.parseJson(jsonDoctor);
-				List<Doctor> list = new ArrayList<Doctor>();
-				session.getTransaction().begin();
-
-				String hql = "from " + Doctor.class.getName()
-						+ " e where e.idDoctor =:id or e.username=:username or e.passport =:passport";
-				Query<Doctor> query = session.createQuery(hql);
-				query.setParameter("id", doctor.getIdDoctor());
-				query.setParameter("username", doctor.getUsername());
-				query.setParameter("passport", doctor.getPassport());
-
+				query.setParameter("email", doctor.getEmail());
 				list.addAll(query.list());
 				session.getTransaction().commit();
 				if (list.size() > 0)
@@ -171,6 +176,22 @@ public class DoctorDAO extends ClassDAO {
 		try {
 			session.getTransaction().begin();
 			String hql = "from " + Doctor.class.getName() + " e  order by e.idDoctor asc";
+			Query<Doctor> query = session.createQuery(hql);
+			doctors = query.list();
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return doctors;
+	}
+	
+	public static List<Doctor> getDoctorUncheck() {
+		List<Doctor> doctors = new ArrayList<Doctor>();
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Doctor.class.getName() + " e where e.isCheck=false order by e.idDoctor asc";
 			Query<Doctor> query = session.createQuery(hql);
 			doctors = query.list();
 			session.getTransaction().commit();
@@ -280,7 +301,8 @@ public class DoctorDAO extends ClassDAO {
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
-			String hql = "from " + Reservation.class.getName() + " e where e.doctor.idDoctor =:doctor and e.isConfirm=false";
+			String hql = "from " + Reservation.class.getName()
+					+ " e where e.doctor.idDoctor =:doctor and e.isConfirm=false";
 			Query<Reservation> query = session.createQuery(hql);
 			query.setParameter("doctor", id);
 			List<Reservation> list = query.list();
@@ -297,7 +319,8 @@ public class DoctorDAO extends ClassDAO {
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
-			String hql = "from " + Reservation.class.getName() + " e where e.doctor.idDoctor =:doctor and e.isConfirm=true";
+			String hql = "from " + Reservation.class.getName()
+					+ " e where e.doctor.idDoctor =:doctor and e.isConfirm=true";
 			Query<Reservation> query = session.createQuery(hql);
 			query.setParameter("doctor", id);
 			List<Reservation> list = query.list();

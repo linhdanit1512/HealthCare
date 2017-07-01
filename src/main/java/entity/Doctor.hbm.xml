@@ -42,14 +42,23 @@
         <property name="address" type="string">
             <column name="address" length="200" />
         </property>
+        <property name="oldPassword" type="string">
+            <column name="oldPassword" length="28" />
+        </property>
         <property name="timeCreate" type="timestamp">
             <column name="timeCreate" length="0" not-null="true" />
         </property>
         <property name="birthDate" type="timestamp">
             <column name="birthDate" length="0"/>
         </property>
+        <property name="timeChange" type="timestamp">
+            <column name="timeChange" length="0"/>
+        </property>
         <property name="isCheck" type="java.lang.Boolean">
             <column name="isCheck" />
+        </property>
+         <property name="passActive" type="java.lang.Boolean">
+            <column name="passActive" />
         </property>
         <set name="scheduleses" table="doctor_schedule" inverse="false" lazy="true" fetch="select">
             <key>

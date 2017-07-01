@@ -33,7 +33,6 @@ import util.SendMail;
 @Path("/doctor")
 public class DoctorService {
 
-
 	@GET
 	@Path("/login/{user}/{pass}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
@@ -56,9 +55,10 @@ public class DoctorService {
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String register(@FormParam("userName") String userName, @FormParam("password") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
-			@FormParam("experience") String experient, @FormParam("email") String email, @FormParam("birthDate") String dob,
-			@FormParam("doctorAddress") String doctorAddress, @FormParam("phone") String phone,
-			@FormParam("passport") String passport, @Context HttpServletResponse servletResponse) {
+			@FormParam("experience") String experient, @FormParam("email") String email,
+			@FormParam("birthDate") String dob, @FormParam("doctorAddress") String doctorAddress,
+			@FormParam("phone") String phone, @FormParam("passport") String passport,
+			@Context HttpServletResponse servletResponse) {
 		try {
 			int experience = Integer.parseInt(experient);
 			Specialty specialty = SpecialtyDAO.getSpecialtyByName(special);
@@ -67,11 +67,13 @@ public class DoctorService {
 				SpecialtyDAO.insert(specialty);
 			}
 			Date timeCreate = new Date();
-			Date birthDate = new Date(dob);
-			Doctor doctor = new Doctor(specialty, userName, name, password, email, phone, passport, degree, birthDate, experience,
-					doctorAddress, timeCreate, false);
+			Date birthDate = new Date(Long.parseLong(dob));
+			Doctor doctor = new Doctor(specialty, userName, name, password, email, phone, passport, degree, birthDate,
+					experience, doctorAddress, timeCreate, false);
 			if (DoctorDAO.register(doctor)) {
-				return DoctorDAO.insert(doctor)?"Đăng ký thành công":"Đăng ký thất bại";
+				doctor.setOldPassword(password);
+				doctor.setPassActive(true);
+				return DoctorDAO.insert(doctor) ? "Đăng ký thành công" : "Đăng ký thất bại";
 			}
 			return "Không đăng ký được";
 		} catch (Exception e) {
@@ -82,22 +84,24 @@ public class DoctorService {
 	@PUT
 	@Path("/forgetpassword")
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
-	public String forgetpass(@FormParam("email") String email, @Context HttpServletResponse servletResponse) {
+	public String forgetpass(@FormParam("email") String email) {
 		try {
 			Doctor doctor = DoctorDAO.getDoctorEmail(email);
 			if (doctor != null) {
 				Random r = new Random();
-				long i = (r.nextLong() + 1) * 5684452;
+				long i = Math.abs((r.nextInt() + 1) * 564452);
 				String pass = (i + "").substring(0, 6);
 				doctor.setPasswords(pass);
+				doctor.setPassActive(false);
 				if (DoctorDAO.update(doctor)) {
-					SendMail.sendMail(email, MailUtil.forgetPasswordTemplete(pass, doctor.getUsername()));
-					return pass;
+					SendMail.sendMail(email, MailUtil.forgetPasswordTemplete(pass, doctor.getUsername()),
+							"[LẤY LẠI MẬT KHẨU HEALTH CARE]");
+					return "Đã đổi mật khẩu, bạn vui lòng vào email để kiểm tra";
 				}
 			}
-			return null;
+			return "Email này chưa đăng ký";
 		} catch (Exception e) {
-			return null;
+			return "Rất tiếc, đã xảy ra lỗi khi thực hiện";
 		}
 	}
 
@@ -108,6 +112,10 @@ public class DoctorService {
 		Doctor doctor = DoctorDAO.getDoctor(id);
 		if (doctor != null) {
 			doctor.setIsCheck(true);
+			doctor.setOldPassword(doctor.getPasswords());
+			String to = doctor.getEmail();
+			String content = MailUtil.getTemplateMailConfirmDoctor();
+			SendMail.sendMail(to, content, "[XÁC NHẬN TÀI KHOẢN HEALTH CARE]");
 			return "Duyệt thành công";
 		}
 		return "Duyệt thất bại";
@@ -141,14 +149,22 @@ public class DoctorService {
 	@Produces(MediaType.TEXT_PLAIN + ";charset=utf-8")
 	public String update(@PathParam("id") int id, @FormParam("password") String password,
 			@FormParam("name") String name, @FormParam("specialty") String special, @FormParam("degree") String degree,
-			@FormParam("experience") String experient, @FormParam("email") String email, @FormParam("birthDate")String birthDate,
-			@FormParam("doctorAddress") String doctorAddress, @FormParam("phone") String phone,
-			@FormParam("passport") String passport, @Context HttpServletResponse servletResponse) {
+			@FormParam("experience") String experient, @FormParam("email") String email,
+			@FormParam("birthDate") String birthDate, @FormParam("doctorAddress") String doctorAddress,
+			@FormParam("phone") String phone, @FormParam("passport") String passport,
+			@Context HttpServletResponse servletResponse) {
 		try {
 			Doctor doctor = DoctorDAO.getDoctor(id);
 			if (doctor != null) {
-				if (check(password))
-					doctor.setPasswords(password);
+				if (check(password)) {
+					if (password.equals(doctor.getOldPassword())) {
+					} else {
+						doctor.setTimeChange(new Date());
+						doctor.setPasswords(password);
+						doctor.setPassActive(true);
+					}
+
+				}
 				if (check(name))
 					doctor.setNameDoctor(name);
 				if (check(special)) {
@@ -164,7 +180,7 @@ public class DoctorService {
 					doctor.setExperience(experience);
 				}
 				if (check(birthDate)) {
-					Date date = new Date(birthDate);
+					Date date = new Date(Long.parseLong(birthDate));
 					doctor.setBirthDate(date);
 				}
 				if (check(email)) {
@@ -183,11 +199,11 @@ public class DoctorService {
 					Doctor d = DoctorDAO.getDoctorPassport(passport);
 					if (d != null) {
 						if (d.getIdDoctor() != doctor.getIdDoctor())
-							return "Số CMND/Hộ chiếu đã có người sủ dụng";
+							return "Số CMND/Hộ chiếu đã có người sử dụng";
 					}
 					doctor.setPassport(passport);
 				}
-				return DoctorDAO.update(doctor)? "Cập nhật thành công": "Cập nhật thất bại";
+				return DoctorDAO.update(doctor) ? "Cập nhật thành công" : "Cập nhật thất bại";
 			}
 			return "Cập nhật thất bại";
 		} catch (Exception e) {
@@ -218,6 +234,22 @@ public class DoctorService {
 	public String getAllDoctor() {
 		try {
 			List<Doctor> list = DoctorDAO.getAllDoctor();
+			if (list != null) {
+				return Doctor.toJsonList(list);
+			} else
+				return "{\"doctorList\": null}";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "{\"doctorList\": null}";
+		}
+	}
+
+	@GET
+	@Path("/uncheck")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getDoctorUncheck() {
+		try {
+			List<Doctor> list = DoctorDAO.getDoctorUncheck();
 			if (list != null) {
 				return Doctor.toJsonList(list);
 			} else
@@ -271,40 +303,38 @@ public class DoctorService {
 			return "{\"message\":null}";
 		}
 	}
-	
+
 	@GET
 	@Path("/reservation/checked/{id}")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String getReservationChecked(@PathParam("id")int idDoctor){
-		try{
+	public String getReservationChecked(@PathParam("id") int idDoctor) {
+		try {
 			List<Reservation> list = DoctorDAO.getReservationChecked(idDoctor);
-			if(list!=null){
+			if (list != null) {
 				return Reservation.toJsonList(list);
-			}else{
+			} else {
 				return "{\"reservationList\":null}";
 			}
-		}catch(Exception e){
-			return "{\"reservationList\":null}";
-		}
-	}
-	
-	
-	@GET
-	@Path("/reservation/uncheck/{id}")
-	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public String getReservationUncheck(@PathParam("id")int idDoctor){
-		try{
-			List<Reservation> list = DoctorDAO.getReservationUnchecked(idDoctor);
-			if(list!=null){
-				return Reservation.toJsonList(list);
-			}else{
-				return "{\"reservationList\":null}";
-			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			return "{\"reservationList\":null}";
 		}
 	}
 
+	@GET
+	@Path("/reservation/uncheck/{id}")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public String getReservationUncheck(@PathParam("id") int idDoctor) {
+		try {
+			List<Reservation> list = DoctorDAO.getReservationUnchecked(idDoctor);
+			if (list != null) {
+				return Reservation.toJsonList(list);
+			} else {
+				return "{\"reservationList\":null}";
+			}
+		} catch (Exception e) {
+			return "{\"reservationList\":null}";
+		}
+	}
 
 	private boolean check(String s) {
 		if (s == null)
