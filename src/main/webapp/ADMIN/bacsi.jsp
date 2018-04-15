@@ -1,5 +1,5 @@
+<%@page import="dao.DoctorDAO"%>
 <%@page import="entity.Doctor"%>
-<%@page import="DAO.DoctorDAO"%>
 
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"

@@ -14,8 +14,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import DAO.DoctorDAO;
-import DAO.ScheduleDAO;
+import dao.DoctorDAO;
+import dao.ScheduleDAO;
 import entity.Doctor;
 import entity.Schedules;
 

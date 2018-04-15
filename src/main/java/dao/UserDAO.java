@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,47 +6,47 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import entity.Patient;
+import entity.Users;
 import util.HibernateUtils;
 
-public class PatientDAO extends ClassDAO{
+public class UserDAO extends ClassDAO {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4912715958064073104L;
-	public static List<Patient> getAllPatient() {
-		List<Patient> patients = new ArrayList<Patient>();
+	private static final long serialVersionUID = 4200096323348870050L;
+
+	public static List<Users> getAllUsers() {
+		List<Users> users = new ArrayList<Users>();
 		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
 		try {
 			session.getTransaction().begin();
-			String hql = "from " + Patient.class.getName() + " e  order by e.idPatient asc";
+			String hql = "from " + Users.class.getName() + " e  order by e.idUser asc";
 			Query query = session.createQuery(hql);
-			patients = query.list();
+			users = query.list();
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}
-		return patients;
-	}
-	
-	public static Patient getPatient(int id) {
-		Patient patient = null;
-		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
-		try {
-			session.getTransaction().begin();
-			String hql = "from " + Patient.class.getName() + " e where e.idPatient =:patient";
-			Query query = session.createQuery(hql);
-			query.setParameter("patient", id);
-			if (query.list().size() > 0)
-				patient = (Patient) query.list().get(0);
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		return patient;
+		return users;
 	}
 
+	public static Users getUsers(int id) {
+		Users user = null;
+		Session session = HibernateUtils.getSessionFactory().getCurrentSession();
+		try {
+			session.getTransaction().begin();
+			String hql = "from " + Users.class.getName() + " e where e.idUser =:user";
+			Query query = session.createQuery(hql);
+			query.setParameter("user", id);
+			if (query.list().size() > 0)
+				user = (Users) query.list().get(0);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return user;
+	}
 }

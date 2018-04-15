@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import DAO.DoctorDAO;
-import DAO.ReservationDAO;
-import DAO.UserDAO;
+import dao.DoctorDAO;
+import dao.ReservationDAO;
+import dao.UserDAO;
 import entity.Reservation;
 import entity.Users;
 

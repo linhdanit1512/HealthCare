@@ -10,7 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import DAO.ClinicDAO;
+import dao.ClinicDAO;
 import entity.Clinic;
 
 @Path("/clinic")

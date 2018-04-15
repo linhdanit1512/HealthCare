@@ -1,4 +1,4 @@
-<%@page import="DAO.ClinicDAO"%>
+<%@page import="dao.ClinicDAO"%>
 <%@page import="entity.Clinic"%>
 
 

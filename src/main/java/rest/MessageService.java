@@ -13,9 +13,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import DAO.DoctorDAO;
-import DAO.MessageDAO;
-import DAO.UserDAO;
+import dao.DoctorDAO;
+import dao.MessageDAO;
+import dao.UserDAO;
 import entity.Doctor;
 import entity.Message;
 import entity.Users;

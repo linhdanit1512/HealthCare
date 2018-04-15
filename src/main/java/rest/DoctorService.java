@@ -17,9 +17,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import DAO.ClinicDAO;
-import DAO.DoctorDAO;
-import DAO.SpecialtyDAO;
+import dao.ClinicDAO;
+import dao.DoctorDAO;
+import dao.SpecialtyDAO;
 import entity.Clinic;
 import entity.Doctor;
 import entity.Message;

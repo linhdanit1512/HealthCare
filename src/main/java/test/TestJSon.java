@@ -1,6 +1,6 @@
 package test;
 
-import DAO.DoctorDAO;
+import dao.DoctorDAO;
 import entity.Doctor;
 import entity.Schedules;
 import util.HibernateUtils;

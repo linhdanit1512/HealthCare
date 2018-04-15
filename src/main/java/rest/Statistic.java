@@ -8,8 +8,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import DAO.ClinicDAO;
-import DAO.DoctorDAO;
+import dao.ClinicDAO;
+import dao.DoctorDAO;
 import entity.Reservation;
 
 @Path("/statistic")
